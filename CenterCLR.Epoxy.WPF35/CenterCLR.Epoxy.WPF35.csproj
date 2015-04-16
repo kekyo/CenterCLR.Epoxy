@@ -1,0 +1,159 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{D1761E31-4024-41C8-BC44-59ACFB65591D}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>CenterCLR.Epoxy</RootNamespace>
+    <AssemblyName>CenterCLR.Epoxy.WPF35</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;NET35</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\Release\</OutputPath>
+    <DefineConstants>TRACE;NET35</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>..\CenterCLR.Epoxy.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Threading, Version=1.0.2856.102, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\TaskParallelLibrary.1.0.2856.0\lib\Net35\System.Threading.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\CenterCLR.Epoxy.WPF45\ActionInvoker.cs">
+      <Link>ActionInvoker.cs</Link>
+    </Compile>
+    <Compile Include="..\CenterCLR.Epoxy.WPF45\CommandReceiver.cs">
+      <Link>CommandReceiver.cs</Link>
+    </Compile>
+    <Compile Include="..\CenterCLR.Epoxy.WPF45\FuncInvoker.cs">
+      <Link>FuncInvoker.cs</Link>
+    </Compile>
+    <Compile Include="..\CenterCLR.Epoxy.WPF45\Gluing\Epoxy.cs">
+      <Link>Gluing\Epoxy.cs</Link>
+    </Compile>
+    <Compile Include="..\CenterCLR.Epoxy.WPF45\Gluing\EventGlue.cs">
+      <Link>Gluing\EventGlue.cs</Link>
+    </Compile>
+    <Compile Include="..\CenterCLR.Epoxy.WPF45\Gluing\GlueItemBase.cs">
+      <Link>Gluing\GlueItemBase.cs</Link>
+    </Compile>
+    <Compile Include="..\CenterCLR.Epoxy.WPF45\Gluing\GlueItemCollection.cs">
+      <Link>Gluing\GlueItemCollection.cs</Link>
+    </Compile>
+    <Compile Include="..\CenterCLR.Epoxy.WPF45\Gluing\IGlueItem.cs">
+      <Link>Gluing\IGlueItem.cs</Link>
+    </Compile>
+    <Compile Include="..\CenterCLR.Epoxy.WPF45\Gluing\Internals\EventHookFacade.cs">
+      <Link>Gluing\Internals\EventHookFacade.cs</Link>
+    </Compile>
+    <Compile Include="..\CenterCLR.Epoxy.WPF45\Gluing\Internals\IInternalGlueItem.cs">
+      <Link>Gluing\Internals\IInternalGlueItem.cs</Link>
+    </Compile>
+    <Compile Include="..\CenterCLR.Epoxy.WPF45\Gluing\Internals\ItemContentControl.cs">
+      <Link>Gluing\Internals\ItemContentControl.cs</Link>
+    </Compile>
+    <Compile Include="..\CenterCLR.Epoxy.WPF45\Gluing\ItemsGlue.cs">
+      <Link>Gluing\ItemsGlue.cs</Link>
+    </Compile>
+    <Compile Include="..\CenterCLR.Epoxy.WPF45\Gluing\MethodGlue.cs">
+      <Link>Gluing\MethodGlue.cs</Link>
+    </Compile>
+    <Compile Include="..\CenterCLR.Epoxy.WPF45\Internals\MemberExtractor.cs">
+      <Link>Internals\MemberExtractor.cs</Link>
+    </Compile>
+    <Compile Include="..\CenterCLR.Epoxy.WPF45\Internals\ModelValues.cs">
+      <Link>Internals\ModelValues.cs</Link>
+    </Compile>
+    <Compile Include="..\CenterCLR.Epoxy.WPF45\Internals\ReflectionTrampoline.cs">
+      <Link>Internals\ReflectionTrampoline.cs</Link>
+    </Compile>
+    <Compile Include="..\CenterCLR.Epoxy.WPF45\Internals\Utilities.cs">
+      <Link>Internals\Utilities.cs</Link>
+    </Compile>
+    <Compile Include="..\CenterCLR.Epoxy.WPF45\MethodInvoker.cs">
+      <Link>MethodInvoker.cs</Link>
+    </Compile>
+    <Compile Include="..\CenterCLR.Epoxy.WPF45\ModelBase.cs">
+      <Link>ModelBase.cs</Link>
+    </Compile>
+    <Compile Include="..\CenterCLR.Epoxy.WPF45\Portability\CallerMemberNameAttribute.cs">
+      <Link>Portability\CallerMemberNameAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\CenterCLR.Epoxy.WPF45\Portability\DataErrorsChangedEventArgs.cs">
+      <Link>Portability\DataErrorsChangedEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\CenterCLR.Epoxy.WPF45\Portability\INotifyDataErrorInfo.cs">
+      <Link>Portability\INotifyDataErrorInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\CenterCLR.Epoxy.WPF45\Portability\ValidationContext.cs">
+      <Link>Portability\ValidationContext.cs</Link>
+    </Compile>
+    <Compile Include="..\CenterCLR.Epoxy.WPF45\Portability\ValidationResult.cs">
+      <Link>Portability\ValidationResult.cs</Link>
+    </Compile>
+    <Compile Include="..\CenterCLR.Epoxy.WPF45\Portability\Validatior.cs">
+      <Link>Portability\Validatior.cs</Link>
+    </Compile>
+    <Compile Include="..\CenterCLR.Epoxy.WPF45\UnitTesting\ICommandReceiver.cs">
+      <Link>UnitTesting\ICommandReceiver.cs</Link>
+    </Compile>
+    <Compile Include="..\CenterCLR.Epoxy.WPF45\UnitTesting\IMethodInvoker.cs">
+      <Link>UnitTesting\IMethodInvoker.cs</Link>
+    </Compile>
+    <Compile Include="..\CenterCLR.Epoxy.WPF45\ViewModelBase.cs">
+      <Link>ViewModelBase.cs</Link>
+    </Compile>
+    <Compile Include="..\CommonAssemblyInfo.cs">
+      <Link>Properties\CommonAssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\CenterCLR.Epoxy.snk">
+      <Link>Properties\CenterCLR.Epoxy.snk</Link>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

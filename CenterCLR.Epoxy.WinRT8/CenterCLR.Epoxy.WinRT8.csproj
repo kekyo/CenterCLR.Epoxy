@@ -1,0 +1,129 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{22B2FBEC-9BE2-4622-97D6-52BDEE909074}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>CenterCLR.Epoxy</RootNamespace>
+    <AssemblyName>CenterCLR.Epoxy.WinRT8</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{BC8A1FFA-BEE3-4634-8014-F334798102B3};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <DefaultLanguage>en-us</DefaultLanguage>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>..\CenterCLR.Epoxy.snk</AssemblyOriginatorKeyFile>
+    <TargetPlatformIdentifier>Windows</TargetPlatformIdentifier>
+    <TargetPlatformVersion>8.0</TargetPlatformVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;WINFX_CORE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\Release\</OutputPath>
+    <DefineConstants>TRACE;WINFX_CORE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="..\CenterCLR.Epoxy.WPF45\ActionInvoker.cs">
+      <Link>ActionInvoker.cs</Link>
+    </Compile>
+    <Compile Include="..\CenterCLR.Epoxy.WPF45\CommandReceiver.cs">
+      <Link>CommandReceiver.cs</Link>
+    </Compile>
+    <Compile Include="..\CenterCLR.Epoxy.WPF45\FuncInvoker.cs">
+      <Link>FuncInvoker.cs</Link>
+    </Compile>
+    <Compile Include="..\CenterCLR.Epoxy.WPF45\Gluing\Epoxy.cs">
+      <Link>Gluing\Epoxy.cs</Link>
+    </Compile>
+    <Compile Include="..\CenterCLR.Epoxy.WPF45\Gluing\EventGlue.cs">
+      <Link>Gluing\EventGlue.cs</Link>
+    </Compile>
+    <Compile Include="..\CenterCLR.Epoxy.WPF45\Gluing\GlueItemBase.cs">
+      <Link>Gluing\GlueItemBase.cs</Link>
+    </Compile>
+    <Compile Include="..\CenterCLR.Epoxy.WPF45\Gluing\GlueItemCollection.cs">
+      <Link>Gluing\GlueItemCollection.cs</Link>
+    </Compile>
+    <Compile Include="..\CenterCLR.Epoxy.WPF45\Gluing\IGlueItem.cs">
+      <Link>Gluing\IGlueItem.cs</Link>
+    </Compile>
+    <Compile Include="..\CenterCLR.Epoxy.WPF45\Gluing\Internals\EventHookFacade.cs">
+      <Link>Gluing\Internals\EventHookFacade.cs</Link>
+    </Compile>
+    <Compile Include="..\CenterCLR.Epoxy.WPF45\Gluing\Internals\IInternalGlueItem.cs">
+      <Link>Gluing\Internals\IInternalGlueItem.cs</Link>
+    </Compile>
+    <Compile Include="..\CenterCLR.Epoxy.WPF45\Gluing\Internals\ItemContentControl.cs">
+      <Link>Gluing\Internals\ItemContentControl.cs</Link>
+    </Compile>
+    <Compile Include="..\CenterCLR.Epoxy.WPF45\Gluing\ItemsGlue.cs">
+      <Link>Gluing\ItemsGlue.cs</Link>
+    </Compile>
+    <Compile Include="..\CenterCLR.Epoxy.WPF45\Gluing\MethodGlue.cs">
+      <Link>Gluing\MethodGlue.cs</Link>
+    </Compile>
+    <Compile Include="..\CenterCLR.Epoxy.WPF45\Internals\MemberExtractor.cs">
+      <Link>Internals\MemberExtractor.cs</Link>
+    </Compile>
+    <Compile Include="..\CenterCLR.Epoxy.WPF45\Internals\ModelValues.cs">
+      <Link>Internals\ModelValues.cs</Link>
+    </Compile>
+    <Compile Include="..\CenterCLR.Epoxy.WPF45\Internals\ReflectionTrampoline.cs">
+      <Link>Internals\ReflectionTrampoline.cs</Link>
+    </Compile>
+    <Compile Include="..\CenterCLR.Epoxy.WPF45\Internals\Utilities.cs">
+      <Link>Internals\Utilities.cs</Link>
+    </Compile>
+    <Compile Include="..\CenterCLR.Epoxy.WPF45\MethodInvoker.cs">
+      <Link>MethodInvoker.cs</Link>
+    </Compile>
+    <Compile Include="..\CenterCLR.Epoxy.WPF45\ModelBase.cs">
+      <Link>ModelBase.cs</Link>
+    </Compile>
+    <Compile Include="..\CenterCLR.Epoxy.WPF45\UnitTesting\ICommandReceiver.cs">
+      <Link>UnitTesting\ICommandReceiver.cs</Link>
+    </Compile>
+    <Compile Include="..\CenterCLR.Epoxy.WPF45\UnitTesting\IMethodInvoker.cs">
+      <Link>UnitTesting\IMethodInvoker.cs</Link>
+    </Compile>
+    <Compile Include="..\CenterCLR.Epoxy.WPF45\ViewModelBase.cs">
+      <Link>ViewModelBase.cs</Link>
+    </Compile>
+    <Compile Include="..\CommonAssemblyInfo.cs">
+      <Link>Properties\CommonAssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\CenterCLR.Epoxy.snk">
+      <Link>Properties\CenterCLR.Epoxy.snk</Link>
+    </None>
+  </ItemGroup>
+  <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '11.0' ">
+    <VisualStudioVersion>11.0</VisualStudioVersion>
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

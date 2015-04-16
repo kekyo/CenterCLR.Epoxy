@@ -1,0 +1,171 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>10.0.20506</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{12931802-86E6-4B48-A665-169C962F19F0}</ProjectGuid>
+    <ProjectTypeGuids>{C089C8C0-30E0-4E22-80C0-CE093F111A43};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>CenterCLR.Epoxy</RootNamespace>
+    <AssemblyName>CenterCLR.Epoxy.WP75</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>WindowsPhone71</TargetFrameworkProfile>
+    <TargetFrameworkIdentifier>Silverlight</TargetFrameworkIdentifier>
+    <SilverlightApplication>false</SilverlightApplication>
+    <ValidateXaml>true</ValidateXaml>
+    <ThrowErrorsInValidation>true</ThrowErrorsInValidation>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;WINDOWS_PHONE75</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\Release\</OutputPath>
+    <DefineConstants>TRACE;WINDOWS_PHONE75</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>..\CenterCLR.Epoxy.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System.IO, Version=1.5.11.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bcl.1.1.10\lib\sl4-windowsphone71\System.IO.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Runtime, Version=1.5.11.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bcl.1.1.10\lib\sl4-windowsphone71\System.Runtime.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Threading.Tasks, Version=1.5.11.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bcl.1.1.10\lib\sl4-windowsphone71\System.Threading.Tasks.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Windows" />
+    <Reference Include="system" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml" />
+    <Reference Include="mscorlib.extensions" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\CenterCLR.Epoxy.WPF45\ActionInvoker.cs">
+      <Link>ActionInvoker.cs</Link>
+    </Compile>
+    <Compile Include="..\CenterCLR.Epoxy.WPF45\CommandReceiver.cs">
+      <Link>CommandReceiver.cs</Link>
+    </Compile>
+    <Compile Include="..\CenterCLR.Epoxy.WPF45\FuncInvoker.cs">
+      <Link>FuncInvoker.cs</Link>
+    </Compile>
+    <Compile Include="..\CenterCLR.Epoxy.WPF45\Gluing\Epoxy.cs">
+      <Link>Gluing\Epoxy.cs</Link>
+    </Compile>
+    <Compile Include="..\CenterCLR.Epoxy.WPF45\Gluing\EventGlue.cs">
+      <Link>Gluing\EventGlue.cs</Link>
+    </Compile>
+    <Compile Include="..\CenterCLR.Epoxy.WPF45\Gluing\GlueItemBase.cs">
+      <Link>Gluing\GlueItemBase.cs</Link>
+    </Compile>
+    <Compile Include="..\CenterCLR.Epoxy.WPF45\Gluing\GlueItemCollection.cs">
+      <Link>Gluing\GlueItemCollection.cs</Link>
+    </Compile>
+    <Compile Include="..\CenterCLR.Epoxy.WPF45\Gluing\IGlueItem.cs">
+      <Link>Gluing\IGlueItem.cs</Link>
+    </Compile>
+    <Compile Include="..\CenterCLR.Epoxy.WPF45\Gluing\Internals\EventHookFacade.cs">
+      <Link>Gluing\Internals\EventHookFacade.cs</Link>
+    </Compile>
+    <Compile Include="..\CenterCLR.Epoxy.WPF45\Gluing\Internals\IInternalGlueItem.cs">
+      <Link>Gluing\Internals\IInternalGlueItem.cs</Link>
+    </Compile>
+    <Compile Include="..\CenterCLR.Epoxy.WPF45\Gluing\Internals\ItemContentControl.cs">
+      <Link>Gluing\Internals\ItemContentControl.cs</Link>
+    </Compile>
+    <Compile Include="..\CenterCLR.Epoxy.WPF45\Gluing\ItemsGlue.cs">
+      <Link>Gluing\ItemsGlue.cs</Link>
+    </Compile>
+    <Compile Include="..\CenterCLR.Epoxy.WPF45\Gluing\MethodGlue.cs">
+      <Link>Gluing\MethodGlue.cs</Link>
+    </Compile>
+    <Compile Include="..\CenterCLR.Epoxy.WPF45\Internals\MemberExtractor.cs">
+      <Link>Internals\MemberExtractor.cs</Link>
+    </Compile>
+    <Compile Include="..\CenterCLR.Epoxy.WPF45\Internals\ModelValues.cs">
+      <Link>Internals\ModelValues.cs</Link>
+    </Compile>
+    <Compile Include="..\CenterCLR.Epoxy.WPF45\Internals\ReflectionTrampoline.cs">
+      <Link>Internals\ReflectionTrampoline.cs</Link>
+    </Compile>
+    <Compile Include="..\CenterCLR.Epoxy.WPF45\Internals\Utilities.cs">
+      <Link>Internals\Utilities.cs</Link>
+    </Compile>
+    <Compile Include="..\CenterCLR.Epoxy.WPF45\MethodInvoker.cs">
+      <Link>MethodInvoker.cs</Link>
+    </Compile>
+    <Compile Include="..\CenterCLR.Epoxy.WPF45\ModelBase.cs">
+      <Link>ModelBase.cs</Link>
+    </Compile>
+    <Compile Include="..\CenterCLR.Epoxy.WPF45\Portability\ValidationContext.cs">
+      <Link>Portability\ValidationContext.cs</Link>
+    </Compile>
+    <Compile Include="..\CenterCLR.Epoxy.WPF45\Portability\ValidationResult.cs">
+      <Link>Portability\ValidationResult.cs</Link>
+    </Compile>
+    <Compile Include="..\CenterCLR.Epoxy.WPF45\Portability\Validatior.cs">
+      <Link>Portability\Validatior.cs</Link>
+    </Compile>
+    <Compile Include="..\CenterCLR.Epoxy.WPF45\UnitTesting\ICommandReceiver.cs">
+      <Link>UnitTesting\ICommandReceiver.cs</Link>
+    </Compile>
+    <Compile Include="..\CenterCLR.Epoxy.WPF45\UnitTesting\IMethodInvoker.cs">
+      <Link>UnitTesting\IMethodInvoker.cs</Link>
+    </Compile>
+    <Compile Include="..\CenterCLR.Epoxy.WPF45\ViewModelBase.cs">
+      <Link>ViewModelBase.cs</Link>
+    </Compile>
+    <Compile Include="..\CommonAssemblyInfo.cs">
+      <Link>Properties\CommonAssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\CenterCLR.Epoxy.snk">
+      <Link>Properties\CenterCLR.Epoxy.snk</Link>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\Silverlight for Phone\$(TargetFrameworkVersion)\Microsoft.Silverlight.$(TargetFrameworkProfile).Overrides.targets" />
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\Silverlight for Phone\$(TargetFrameworkVersion)\Microsoft.Silverlight.CSharp.targets" />
+  <ProjectExtensions />
+  <Import Project="..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" />
+  <Target Name="EnsureBclBuildImported" BeforeTargets="BeforeBuild" Condition="'$(BclBuildImported)' == ''">
+    <Error Condition="!Exists('..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" Text="This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=317567." HelpKeyword="BCLBUILD2001" />
+    <Error Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" Text="The build restored NuGet packages. Build the project again to include these packages in the build. For more information, see http://go.microsoft.com/fwlink/?LinkID=317568." HelpKeyword="BCLBUILD2002" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

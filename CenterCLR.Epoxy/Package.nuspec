@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+	<metadata>
+		<id>CenterCLR.Epoxy</id>
+		<title>CenterCLR.Epoxy</title>
+		<version>0.4.16.0</version>
+		<authors>Kouji Matsui</authors>
+		<owners>Kouji Matsui</owners>
+		<copyright>Copyright (c) 2015 Kouji Matsui</copyright>
+		<summary>A simplism MVVM assister library.</summary>
+		<description>A simplism MVVM assister library.</description>
+		<licenseUrl>http://opensource.org/licenses/Apache-2.0</licenseUrl>
+		<tags>Epoxy MVVM Model View ViewModel </tags>
+		<language>en-US</language>
+		<dependencies>
+			<group targetFramework="net35-Client">
+				<dependency id="TaskParallelLibrary" version="1.0.2856.0" />
+			</group>
+			<group targetFramework="net40-Client">
+			</group>
+			<group targetFramework="net45">
+			</group>
+			<group targetFramework="sl5">
+			</group>
+			<group targetFramework="wp71">
+				<dependency id="Microsoft.Bcl" version="1.1.10" />
+				<dependency id="Microsoft.Bcl.Build" version="1.0.14" />
+			</group>
+			<group targetFramework="wp8">
+			</group>
+			<group targetFramework="win8">
+			</group>
+		</dependencies>
+		<!-- Optional metadata
+		<version></version>
+		<projectUrl></projectUrl>
+		<iconUrl></iconUrl>
+		<requireLicenseAcceptance>false</requireLicenseAcceptance>
+		<tags></tags>
+		<releaseNotes></releaseNotes>
+		<frameworkAssemblies>
+			<frameworkAssembly assemblyName="System" targetFramework=".NETFramework4.0" />
+		</frameworkAssemblies>
+		<references></references>
+		-->
+	</metadata>
+	<files>
+		<file src="..\Debug\CenterCLR.Epoxy.WPF35.dll" target="lib\net35-Client" />
+		<file src="..\Debug\CenterCLR.Epoxy.WPF4.dll" target="lib\net40-Client" />
+		<file src="..\Debug\CenterCLR.Epoxy.WPF45.dll" target="lib\net45" />
+		<file src="..\Debug\CenterCLR.Epoxy.SL5.dll" target="lib\sl5" />
+		<file src="..\Debug\CenterCLR.Epoxy.WP75.dll" target="lib\wp71" />
+		<file src="..\Debug\CenterCLR.Epoxy.WP8.dll" target="lib\wp8" />
+		<file src="..\Debug\CenterCLR.Epoxy.WinRT8.dll" target="lib\win8" />
+	</files>
+</package>
