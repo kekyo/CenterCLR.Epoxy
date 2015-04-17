@@ -15,7 +15,7 @@
 // limitations under the License.
 ////////////////////////////////////////////////////////////////////////////
 
-#if WINFX_CORE
+#if NETFX_CORE
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Data;
@@ -30,29 +30,8 @@ namespace CenterCLR.Epoxy.Gluing.Internals
 {
 	internal sealed class ItemContentControl : ContentControl
 	{
-		public static readonly DependencyProperty ItemIndexProperty = DependencyProperty.Register(
-			"ItemIndex",
-			typeof(int),
-			typeof(ItemContentControl),
-			new PropertyMetadata(-1));
-
 		public ItemContentControl()
 		{
-		}
-
-#if NET35 || NET40 || NET45
-		[Bindable(true)]
-#endif
-		public int ItemIndex
-		{
-			get
-			{
-				return (int)base.GetValue(ItemIndexProperty);
-			}
-			set
-			{
-				base.SetValue(ItemIndexProperty, value);
-			}
 		}
 
 		private void SetBinding(DependencyProperty targetProperty, DependencyObject source, string sourceProperty)
@@ -66,19 +45,24 @@ namespace CenterCLR.Epoxy.Gluing.Internals
 			this.SetBinding(targetProperty, binding);
 		}
 
-		public void SetItem(ItemsGlue parent, object value)
+		public void SetContentValue(ItemsGlue parent, object value)
 		{
 #if NET35 || NET40 || NET45
 			this.SetBinding(ContentStringFormatProperty, parent, "ItemStringFormat");
 #endif
 			this.SetBinding(ContentTemplateProperty, parent, "ItemTemplate");
-#if NET35 || NET40 || NET45 || WINFX_CORE
+#if NET35 || NET40 || NET45 || NETFX_CORE
 			this.SetBinding(ContentTemplateSelectorProperty, parent, "ItemTemplateSelector");
 #endif
 			this.SetValue(ContentProperty, value);
 		}
 
-		public void ResetItem()
+		public void SetContentValue(object value)
+		{
+			this.SetValue(ContentProperty, value);
+		}
+
+		public void ResetContentValue()
 		{
 			this.SetValue(ContentProperty, DependencyProperty.UnsetValue);
 
@@ -86,7 +70,7 @@ namespace CenterCLR.Epoxy.Gluing.Internals
 			this.SetValue(ContentStringFormatProperty, DependencyProperty.UnsetValue);
 #endif
 			this.SetValue(ContentTemplateProperty, DependencyProperty.UnsetValue);
-#if NET35 || NET40 || NET45 || WINFX_CORE
+#if NET35 || NET40 || NET45 || NETFX_CORE
 			this.SetValue(ContentTemplateSelectorProperty, DependencyProperty.UnsetValue);
 #endif
 		}

@@ -15,62 +15,64 @@
 // limitations under the License.
 ////////////////////////////////////////////////////////////////////////////
 
-#if WINFX_CORE
+#if NETFX_CORE
 using Windows.UI.Xaml;
 #else
 using System.Windows;
-using System.Windows.Media.Animation;
 #endif
-
-using CenterCLR.Epoxy.Gluing.Internals;
 
 namespace CenterCLR.Epoxy.Gluing
 {
-	public abstract class GlueItemBase :
 #if NET35 || NET40 || NET45
- Animatable,
+	public sealed class GlueCollection : FreezableList<GlueBase, GlueCollection>
 #else
-		DependencyObject,
+	public sealed class GlueCollection : DependencyObjectList<GlueBase>
 #endif
- IInternalGlueItem
 	{
-		internal GlueItemBase()
+		private DependencyObject target_;
+
+		protected override void OnAdded(GlueBase newItem, int index)
 		{
+			newItem.SetTarget(target_);
+			base.OnAdded(newItem, index);
 		}
 
-		protected DependencyObject Target
+		protected override void OnRemoved(GlueBase oldItem, int index)
 		{
-			get;
-			private set;
+			oldItem.SetTarget(null);
+			base.OnRemoved(oldItem, index);
 		}
 
-		void IInternalGlueItem.SetTarget(DependencyObject target)
+		protected override void OnReplaced(GlueBase newItem, GlueBase oldItem, int index)
 		{
-			var oldValue = this.Target;
-			if (object.ReferenceEquals(target, oldValue) == true)
+			oldItem.SetTarget(null);
+			newItem.SetTarget(target_);
+			base.OnReplaced(newItem, oldItem, index);
+		}
+
+		protected override void OnClearing()
+		{
+			base.OnClearing();
+
+			foreach (var item in this)
+			{
+				item.SetTarget(null);
+			}
+		}
+
+		internal void SetTarget(DependencyObject target)
+		{
+			if (object.ReferenceEquals(target, target_) == true)
 			{
 				return;
 			}
 
-			this.Target = target;
-			this.OnSetTarget(oldValue, this.Target);
-		}
+			target_ = target;
 
-		protected abstract void OnSetTarget(DependencyObject oldTarget, DependencyObject newTarget);
-	}
-
-	public abstract class GlueItemBase<T> : GlueItemBase
-		where T : GlueItemBase, new()
-	{
-		protected GlueItemBase()
-		{
+			foreach (var item in this)
+			{
+				item.SetTarget(target_);
+			}
 		}
-
-#if NET35 || NET40 || NET45
-		protected override sealed Freezable CreateInstanceCore()
-		{
-			return new T();
-		}
-#endif
 	}
 }

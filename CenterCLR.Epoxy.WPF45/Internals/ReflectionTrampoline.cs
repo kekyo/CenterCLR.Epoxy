@@ -24,7 +24,7 @@ namespace CenterCLR.Epoxy.Internals
 	internal static class ReflectionTrampoline
 	{
 		public static readonly Type[] EmptyTypes =
-#if WINFX_CORE
+#if NETFX_CORE
 			new Type[0];
 #else
  Type.EmptyTypes;
@@ -32,7 +32,7 @@ namespace CenterCLR.Epoxy.Internals
 
 		public static Delegate CreateDelegateTrampoline(this MethodInfo method, Type type, object instance)
 		{
-#if WINFX_CORE
+#if NETFX_CORE
 			return method.CreateDelegate(type, instance);
 #else
 			return Delegate.CreateDelegate(type, instance, method);
@@ -41,7 +41,7 @@ namespace CenterCLR.Epoxy.Internals
 
 		public static MethodInfo[] GetMethodsTrampoline(this Type type)
 		{
-#if WINFX_CORE
+#if NETFX_CORE
 			return type.GetTypeInfo().DeclaredMethods.ToArray();
 #else
 			return type.GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly);
@@ -50,7 +50,7 @@ namespace CenterCLR.Epoxy.Internals
 
 		public static MethodInfo GetMethodTrampoline(this Type type, string methodName)
 		{
-#if WINFX_CORE
+#if NETFX_CORE
 			return type.GetTypeInfo().GetDeclaredMethod(methodName);
 #else
 			return type.GetMethod(methodName, BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly);
@@ -59,7 +59,7 @@ namespace CenterCLR.Epoxy.Internals
 
 		public static PropertyInfo GetPropertyTrampoline(this Type type, string propertyName)
 		{
-#if WINFX_CORE
+#if NETFX_CORE
 			return type.GetTypeInfo().GetDeclaredProperty(propertyName);
 #else
 			return type.GetProperty(propertyName, BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly);
@@ -68,7 +68,7 @@ namespace CenterCLR.Epoxy.Internals
 
 		public static EventInfo GetEventTrampoline(this Type type, string eventName)
 		{
-#if WINFX_CORE
+#if NETFX_CORE
 			return type.GetTypeInfo().GetDeclaredEvent(eventName);
 #else
 			return type.GetEvent(eventName, BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly);
@@ -77,7 +77,7 @@ namespace CenterCLR.Epoxy.Internals
 
 		public static Type GetBaseTypeTrampoline(this Type type)
 		{
-#if WINFX_CORE
+#if NETFX_CORE
 			return type.GetTypeInfo().BaseType;
 #else
 			return type.BaseType;
@@ -86,7 +86,7 @@ namespace CenterCLR.Epoxy.Internals
 
 		public static MethodInfo GetMethodInfoTrampoline(this Delegate dlg)
 		{
-#if WINFX_CORE
+#if NETFX_CORE
 			return dlg.GetMethodInfo();
 #else
 			return dlg.Method;
@@ -95,7 +95,7 @@ namespace CenterCLR.Epoxy.Internals
 
 		public static bool IsAssignableFromTrampoline(this Type type, Type fromType)
 		{
-#if WINFX_CORE
+#if NETFX_CORE
 			return type.GetTypeInfo().IsAssignableFrom(fromType.GetTypeInfo());
 #else
 			return type.IsAssignableFrom(fromType);

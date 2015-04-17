@@ -34,7 +34,7 @@ namespace CenterCLR.Epoxy.Internals
 
 		public static ValidationContext CreateValidationContext(object instance, string propertyName)
 		{
-#if WINFX_CORE
+#if NETFX_CORE
 			return new ValidationContext(instance)
 			{
 				MemberName = propertyName

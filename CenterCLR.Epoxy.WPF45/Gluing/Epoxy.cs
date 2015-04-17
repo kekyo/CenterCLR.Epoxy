@@ -15,13 +15,11 @@
 // limitations under the License.
 ////////////////////////////////////////////////////////////////////////////
 
-#if WINFX_CORE
+#if NETFX_CORE
 using Windows.UI.Xaml;
 #else
 using System.Windows;
 #endif
-
-using CenterCLR.Epoxy.Gluing.Internals;
 
 namespace CenterCLR.Epoxy.Gluing
 {
@@ -30,16 +28,16 @@ namespace CenterCLR.Epoxy.Gluing
 		public static readonly DependencyProperty GluesProperty =
 			DependencyProperty.RegisterAttached(
 				"ShadowGlues",
-				typeof(GlueItemCollection),
+				typeof(GlueCollection),
 				typeof(Epoxy),
 				new PropertyMetadata(null, OnChanged));
 
-		public static GlueItemCollection GetGlues(DependencyObject d)
+		public static GlueCollection GetGlues(DependencyObject d)
 		{
-			var value = (GlueItemCollection)d.GetValue(GluesProperty);
+			var value = (GlueCollection)d.GetValue(GluesProperty);
 			if (value == null)
 			{
-				value = new GlueItemCollection();
+				value = new GlueCollection();
 				d.SetValue(GluesProperty, value);
 			}
 
@@ -48,13 +46,13 @@ namespace CenterCLR.Epoxy.Gluing
 
 		private static void OnChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
 		{
-			var oldValue = e.OldValue as IInternalGlueItem;
+			var oldValue = e.OldValue as GlueCollection;
 			if (oldValue != null)
 			{
 				oldValue.SetTarget(null);
 			}
 
-			var newValue = e.NewValue as IInternalGlueItem;
+			var newValue = e.NewValue as GlueCollection;
 			if (newValue != null)
 			{
 				newValue.SetTarget(d);

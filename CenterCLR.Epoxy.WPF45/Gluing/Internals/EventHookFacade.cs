@@ -24,8 +24,6 @@ namespace CenterCLR.Epoxy.Gluing.Internals
 {
 	internal sealed class EventHookFacade
 	{
-		// TODO: more improvement.
-
 		private static readonly MethodInfo onInvokeMethod_ = typeof(EventGlue).GetMethodTrampoline("OnInvoke");
 
 		private static readonly MemberExtractor<EventInfo, EventHookFacade> facades_ = MemberExtractor.Create(

@@ -72,26 +72,23 @@
     <Compile Include="..\CenterCLR.Epoxy.WPF45\FuncInvoker.cs">
       <Link>FuncInvoker.cs</Link>
     </Compile>
+    <Compile Include="..\CenterCLR.Epoxy.WPF45\Gluing\DependencyObjectList.cs">
+      <Link>Gluing\DependencyObjectList.cs</Link>
+    </Compile>
     <Compile Include="..\CenterCLR.Epoxy.WPF45\Gluing\Epoxy.cs">
       <Link>Gluing\Epoxy.cs</Link>
     </Compile>
     <Compile Include="..\CenterCLR.Epoxy.WPF45\Gluing\EventGlue.cs">
       <Link>Gluing\EventGlue.cs</Link>
     </Compile>
-    <Compile Include="..\CenterCLR.Epoxy.WPF45\Gluing\GlueItemBase.cs">
-      <Link>Gluing\GlueItemBase.cs</Link>
+    <Compile Include="..\CenterCLR.Epoxy.WPF45\Gluing\GlueBase.cs">
+      <Link>Gluing\GlueBase.cs</Link>
     </Compile>
-    <Compile Include="..\CenterCLR.Epoxy.WPF45\Gluing\GlueItemCollection.cs">
-      <Link>Gluing\GlueItemCollection.cs</Link>
-    </Compile>
-    <Compile Include="..\CenterCLR.Epoxy.WPF45\Gluing\IGlueItem.cs">
-      <Link>Gluing\IGlueItem.cs</Link>
+    <Compile Include="..\CenterCLR.Epoxy.WPF45\Gluing\GlueCollection.cs">
+      <Link>Gluing\GlueCollection.cs</Link>
     </Compile>
     <Compile Include="..\CenterCLR.Epoxy.WPF45\Gluing\Internals\EventHookFacade.cs">
       <Link>Gluing\Internals\EventHookFacade.cs</Link>
-    </Compile>
-    <Compile Include="..\CenterCLR.Epoxy.WPF45\Gluing\Internals\IInternalGlueItem.cs">
-      <Link>Gluing\Internals\IInternalGlueItem.cs</Link>
     </Compile>
     <Compile Include="..\CenterCLR.Epoxy.WPF45\Gluing\Internals\ItemContentControl.cs">
       <Link>Gluing\Internals\ItemContentControl.cs</Link>
@@ -101,6 +98,9 @@
     </Compile>
     <Compile Include="..\CenterCLR.Epoxy.WPF45\Gluing\MethodGlue.cs">
       <Link>Gluing\MethodGlue.cs</Link>
+    </Compile>
+    <Compile Include="..\CenterCLR.Epoxy.WPF45\Gluing\PropertyGlue.cs">
+      <Link>Gluing\PropertyGlue.cs</Link>
     </Compile>
     <Compile Include="..\CenterCLR.Epoxy.WPF45\Internals\MemberExtractor.cs">
       <Link>Internals\MemberExtractor.cs</Link>

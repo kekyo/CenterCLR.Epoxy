@@ -15,16 +15,59 @@
 // limitations under the License.
 ////////////////////////////////////////////////////////////////////////////
 
-#if WINFX_CORE
+#if NETFX_CORE
 using Windows.UI.Xaml;
 #else
 using System.Windows;
+using System.Windows.Media.Animation;
 #endif
 
-namespace CenterCLR.Epoxy.Gluing.Internals
+namespace CenterCLR.Epoxy.Gluing
 {
-	internal interface IInternalGlueItem : IGlueItem
+	public abstract class GlueBase :
+#if NET35 || NET40 || NET45
+ Animatable
+#else
+		DependencyObject
+#endif
 	{
-		void SetTarget(DependencyObject target);
+		internal GlueBase()
+		{
+		}
+
+		protected DependencyObject Target
+		{
+			get;
+			private set;
+		}
+
+		internal void SetTarget(DependencyObject target)
+		{
+			var oldValue = this.Target;
+			if (object.ReferenceEquals(target, oldValue) == true)
+			{
+				return;
+			}
+
+			this.Target = target;
+			this.OnSetTarget(oldValue, this.Target);
+		}
+
+		protected abstract void OnSetTarget(DependencyObject oldTarget, DependencyObject newTarget);
+	}
+
+	public abstract class GlueBase<T> : GlueBase
+		where T : GlueBase, new()
+	{
+		protected GlueBase()
+		{
+		}
+
+#if NET35 || NET40 || NET45
+		protected override sealed Freezable CreateInstanceCore()
+		{
+			return new T();
+		}
+#endif
 	}
 }

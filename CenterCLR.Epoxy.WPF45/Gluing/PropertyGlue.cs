@@ -16,37 +16,29 @@
 ////////////////////////////////////////////////////////////////////////////
 
 #if NETFX_CORE
-using System.Diagnostics;
-using System.Windows.Input;
 using Windows.UI.Xaml;
 #else
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Windows;
-using System.Windows.Input;
 #endif
-
-using CenterCLR.Epoxy.Gluing.Internals;
 
 namespace CenterCLR.Epoxy.Gluing
 {
-	public sealed class EventGlue : GlueBase<EventGlue>
+	public sealed class PropertyGlue : GlueBase<PropertyGlue>
 	{
-		private EventHookFacade currentFacade_;
-
 		public static readonly DependencyProperty NameProperty = DependencyProperty.Register(
 			"Name",
 			typeof(string),
-			typeof(EventGlue),
+			typeof(PropertyGlue),
 			new PropertyMetadata(null, OnChanged));
 
-		public static readonly DependencyProperty CommandProperty = DependencyProperty.Register(
-			"Command",
-			typeof(ICommand),
-			typeof(EventGlue),
+		public static readonly DependencyProperty InvokerProperty = DependencyProperty.Register(
+			"Invoker",
+			typeof(MethodInvoker),
+			typeof(PropertyGlue),
 			new PropertyMetadata(null, OnChanged));
 
-		public EventGlue()
+		public PropertyGlue()
 		{
 		}
 
@@ -68,57 +60,25 @@ namespace CenterCLR.Epoxy.Gluing
 #if NET35 || NET40 || NET45
 		[Bindable(true)]
 #endif
-		public ICommand Command
+		public MethodInvoker Invoker
 		{
 			get
 			{
-				return (ICommand)base.GetValue(CommandProperty);
+				return (MethodInvoker)base.GetValue(InvokerProperty);
 			}
 			set
 			{
-				base.SetValue(CommandProperty, value);
-			}
-		}
-
-#if NETFX_CORE
-		public void OnInvoke<T>(object sender, T parameter)
-#else
-		internal void OnInvoke<T>(object sender, T parameter)
-#endif
-		{
-			var command = this.Command;
-			if (command != null)
-			{
-				if (command.CanExecute(parameter) == true)
-				{
-					command.Execute(parameter);
-				}
+				base.SetValue(InvokerProperty, value);
 			}
 		}
 
 		protected override void OnSetTarget(DependencyObject oldTarget, DependencyObject newTarget)
 		{
-			if (currentFacade_ != null)
+			var invoker = this.Invoker;
+			if (invoker != null)
 			{
-				currentFacade_.RemoveHandler(this, oldTarget);
-				currentFacade_ = null;
+				invoker.SetTarget(newTarget, this.Name);
 			}
-
-			if ((newTarget == null) || string.IsNullOrEmpty(this.Name))
-			{
-				return;
-			}
-
-			var type = newTarget.GetType();
-
-			currentFacade_ = EventHookFacade.TryGetFacade(type, this.Name);
-			if (currentFacade_ == null)
-			{
-				Debug.WriteLine(string.Format("EventGlue: warning: cannot found event: Type={0}, Name={1}", type.FullName, this.Name));
-				return;
-			}
-
-			currentFacade_.AddHandler(this, newTarget);
 		}
 
 		private void OnChanged(DependencyPropertyChangedEventArgs e)
@@ -128,8 +88,8 @@ namespace CenterCLR.Epoxy.Gluing
 
 		private static void OnChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
 		{
-			var eventGlue = (EventGlue)d;
-			eventGlue.OnChanged(e);
+			var methodGlue = (PropertyGlue)d;
+			methodGlue.OnChanged(e);
 		}
 	}
 }

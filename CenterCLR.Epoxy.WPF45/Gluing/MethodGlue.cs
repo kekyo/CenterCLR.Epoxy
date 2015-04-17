@@ -15,7 +15,7 @@
 // limitations under the License.
 ////////////////////////////////////////////////////////////////////////////
 
-#if WINFX_CORE
+#if NETFX_CORE
 using Windows.UI.Xaml;
 #else
 using System.ComponentModel;
@@ -24,7 +24,7 @@ using System.Windows;
 
 namespace CenterCLR.Epoxy.Gluing
 {
-	public sealed class MethodGlue : GlueItemBase<MethodGlue>
+	public sealed class MethodGlue : GlueBase<MethodGlue>
 	{
 		public static readonly DependencyProperty NameProperty = DependencyProperty.Register(
 			"Name",

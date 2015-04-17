@@ -63,9 +63,34 @@ namespace CenterCLR.Epoxy
 			return new ActionInvoker<T1, T2, T3>();
 		}
 
+		protected ActionInvoker<T1, T2, T3, T4> CreateAction<T1, T2, T3, T4>()
+		{
+			return new ActionInvoker<T1, T2, T3, T4>();
+		}
+
 		protected FuncInvoker<TR> CreateFunc<TR>()
 		{
 			return new FuncInvoker<TR>();
+		}
+
+		protected FuncInvoker<T1, TR> CreateFunc<T1, TR>()
+		{
+			return new FuncInvoker<T1, TR>();
+		}
+
+		protected FuncInvoker<T1, T2, TR> CreateFunc<T1, T2, TR>()
+		{
+			return new FuncInvoker<T1, T2, TR>();
+		}
+
+		protected FuncInvoker<T1, T2, T3, TR> CreateFunc<T1, T2, T3, TR>()
+		{
+			return new FuncInvoker<T1, T2, T3, TR>();
+		}
+
+		protected FuncInvoker<T1, T2, T3, T4, TR> CreateFunc<T1, T2, T3, T4, TR>()
+		{
+			return new FuncInvoker<T1, T2, T3, T4, TR>();
 		}
 	}
 

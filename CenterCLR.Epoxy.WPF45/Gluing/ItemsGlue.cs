@@ -15,7 +15,7 @@
 // limitations under the License.
 ////////////////////////////////////////////////////////////////////////////
 
-#if WINFX_CORE
+#if NETFX_CORE
 using System;
 using System.Collections;
 using System.Collections.Specialized;
@@ -41,7 +41,7 @@ using CenterCLR.Epoxy.Internals;
 
 namespace CenterCLR.Epoxy.Gluing
 {
-#if WINFX_CORE
+#if NETFX_CORE
 	[ContentProperty(Name = "ItemTemplate")]
 #else
 	[ContentProperty("ItemTemplate")]
@@ -49,7 +49,7 @@ namespace CenterCLR.Epoxy.Gluing
 #if NET35 || NET40 || NET45
 	[DefaultProperty("ItemTemplate")]
 #endif
-	public sealed class ItemsGlue : GlueItemBase<ItemsGlue>
+	public sealed class ItemsGlue : GlueBase<ItemsGlue>
 	{
 		private static readonly MemberExtractor<PropertyInfo, PropertyInfo> properties_ = MemberExtractor.Create(
 			(type, name, signatureTypes) => type.GetPropertyTrampoline(name),
@@ -67,11 +67,13 @@ namespace CenterCLR.Epoxy.Gluing
 			typeof(ItemsGlue),
 			new PropertyMetadata(null, OnItemsSourceChanged));
 
+#if NET35 || NET40 || NET45
 		public static readonly DependencyProperty ItemStringFormatProperty = DependencyProperty.Register(
 			"ItemStringFormat",
 			typeof(string),
 			typeof(ItemsGlue),
 			new PropertyMetadata(null, OnChanged));
+#endif
 
 		public static readonly DependencyProperty ItemTemplateProperty = DependencyProperty.Register(
 			"ItemTemplate",
@@ -79,7 +81,7 @@ namespace CenterCLR.Epoxy.Gluing
 			typeof(ItemsGlue),
 			new PropertyMetadata(null, OnChanged));
 
-#if NET35 || NET40 || NET45 || WINFX_CORE
+#if NET35 || NET40 || NET45 || NETFX_CORE
 		public static readonly DependencyProperty ItemTemplateSelectorProperty = DependencyProperty.Register(
 			"ItemTemplateSelector",
 			typeof(DataTemplateSelector),
@@ -125,7 +127,6 @@ namespace CenterCLR.Epoxy.Gluing
 
 #if NET35 || NET40 || NET45
 		[Bindable(true)]
-#endif
 		public string ItemStringFormat
 		{
 			get
@@ -137,6 +138,7 @@ namespace CenterCLR.Epoxy.Gluing
 				base.SetValue(ItemStringFormatProperty, value);
 			}
 		}
+#endif
 
 #if NET35 || NET40 || NET45
 		[Bindable(true)]
@@ -153,11 +155,11 @@ namespace CenterCLR.Epoxy.Gluing
 			}
 		}
 
+#if NET35 || NET40 || NET45 || NETFX_CORE
 #if NET35 || NET40 || NET45
 		[Bindable(true)]
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 #endif
-#if NET35 || NET40 || NET45 || WINFX_CORE
 		public DataTemplateSelector ItemTemplateSelector
 		{
 			get
@@ -174,8 +176,7 @@ namespace CenterCLR.Epoxy.Gluing
 		private ItemContentControl CreateItemByValue(object value, int initialIndex)
 		{
 			var item = new ItemContentControl();
-			item.ItemIndex = initialIndex;
-			item.SetItem(this, value);
+			item.SetContentValue(this, value);
 			return item;
 		}
 
@@ -237,7 +238,7 @@ namespace CenterCLR.Epoxy.Gluing
 						var item = targetList_[realIndex] as ItemContentControl;
 						if (item != null)
 						{
-							item.ResetItem();
+							item.ResetContentValue();
 						}
 						targetList_.RemoveAt(realIndex);
 					}
@@ -256,11 +257,20 @@ namespace CenterCLR.Epoxy.Gluing
 					break;
 
 				case NotifyCollectionChangedAction.Replace:
-					Debug.Assert(false, "TODO: NotifyCollectionChangedAction.Replace");
+					for (var index = 0; index < e.NewItems.Count; index++)
+					{
+						var realIndex = index + e.NewStartingIndex;
+						((ItemContentControl)targetList_[realIndex]).SetContentValue(e.NewItems[index]);
+					}
 					break;
-#if NET35 || NET40 || NET45 || WINDOWS_PHONE80 || WINFX_CORE
+
+#if NET35 || NET40 || NET45 || WINDOWS_PHONE80 || NETFX_CORE
 				case NotifyCollectionChangedAction.Move:
-					Debug.Assert(false, "TODO: NotifyCollectionChangedAction.Move");
+					{
+						var item = (ItemContentControl)targetList_[e.OldStartingIndex];
+						targetList_.RemoveAt(e.OldStartingIndex);
+						targetList_.Insert(e.NewStartingIndex, item);
+					}
 					break;
 #endif
 			}

@@ -38,6 +38,56 @@ namespace CenterCLR.Epoxy
 		}
 
 		internal abstract void SetTarget(object target, string name);
+
+		public static ActionInvoker CreateAction()
+		{
+			return new ActionInvoker();
+		}
+
+		public static ActionInvoker<T1> CreateAction<T1>()
+		{
+			return new ActionInvoker<T1>();
+		}
+
+		public static ActionInvoker<T1, T2> CreateAction<T1, T2>()
+		{
+			return new ActionInvoker<T1, T2>();
+		}
+
+		public static ActionInvoker<T1, T2, T3> CreateAction<T1, T2, T3>()
+		{
+			return new ActionInvoker<T1, T2, T3>();
+		}
+
+		public static ActionInvoker<T1, T2, T3, T4> CreateAction<T1, T2, T3, T4>()
+		{
+			return new ActionInvoker<T1, T2, T3, T4>();
+		}
+
+		public static FuncInvoker<TR> CreateFunc<TR>()
+		{
+			return new FuncInvoker<TR>();
+		}
+
+		public static FuncInvoker<T1, TR> CreateFunc<T1, TR>()
+		{
+			return new FuncInvoker<T1, TR>();
+		}
+
+		public static FuncInvoker<T1, T2, TR> CreateFunc<T1, T2, TR>()
+		{
+			return new FuncInvoker<T1, T2, TR>();
+		}
+
+		public static FuncInvoker<T1, T2, T3, TR> CreateFunc<T1, T2, T3, TR>()
+		{
+			return new FuncInvoker<T1, T2, T3, TR>();
+		}
+
+		public static FuncInvoker<T1, T2, T3, T4, TR> CreateFunc<T1, T2, T3, T4, TR>()
+		{
+			return new FuncInvoker<T1, T2, T3, T4, TR>();
+		}
 	}
 
 	public abstract class MethodInvoker<T> : MethodInvoker, IMethodInvoker<T>
