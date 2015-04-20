@@ -57,6 +57,15 @@ namespace CenterCLR.Epoxy.Internals
 #endif
 		}
 
+		public static PropertyInfo[] GetPropertiesTrampoline(this Type type)
+		{
+#if NETFX_CORE
+			return type.GetTypeInfo().DeclaredProperties.ToArray();
+#else
+			return type.GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly);
+#endif
+		}
+
 		public static PropertyInfo GetPropertyTrampoline(this Type type, string propertyName)
 		{
 #if NETFX_CORE

@@ -96,11 +96,17 @@
     <Compile Include="..\CenterCLR.Epoxy.WPF45\ModelBase.cs">
       <Link>ModelBase.cs</Link>
     </Compile>
+    <Compile Include="..\CenterCLR.Epoxy.WPF45\PropertyAccessor.cs">
+      <Link>PropertyAccessor.cs</Link>
+    </Compile>
     <Compile Include="..\CenterCLR.Epoxy.WPF45\UnitTesting\ICommandReceiver.cs">
       <Link>UnitTesting\ICommandReceiver.cs</Link>
     </Compile>
     <Compile Include="..\CenterCLR.Epoxy.WPF45\UnitTesting\IMethodInvoker.cs">
       <Link>UnitTesting\IMethodInvoker.cs</Link>
+    </Compile>
+    <Compile Include="..\CenterCLR.Epoxy.WPF45\UnitTesting\IPropertyAccessor.cs">
+      <Link>UnitTesting\IPropertyAccessor.cs</Link>
     </Compile>
     <Compile Include="..\CenterCLR.Epoxy.WPF45\ViewModelBase.cs">
       <Link>ViewModelBase.cs</Link>

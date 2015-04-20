@@ -76,7 +76,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UnitTesting\ICommandReceiver.cs" />
     <Compile Include="UnitTesting\IMethodInvoker.cs" />
+    <Compile Include="UnitTesting\IPropertyAccessor.cs" />
     <Compile Include="ViewModelBase.cs" />
+    <Compile Include="PropertyAccessor.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\CenterCLR.Epoxy.snk">

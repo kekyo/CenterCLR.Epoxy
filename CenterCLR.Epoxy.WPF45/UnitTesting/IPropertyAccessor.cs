@@ -17,13 +17,10 @@
 
 using System.Reflection;
 
-[assembly: AssemblyProduct("CenterCLR.Epoxy")]
-[assembly: AssemblyDescription("Epoxy, A simplism MVVM assister library. https://github.com/kekyo/CenterCLR.Epoxy")]
-[assembly: AssemblyCompany("Kouji Matsui")]
-[assembly: AssemblyCopyright("Copyright (c) 2015 Kouji Matsui, Licensed under the Apache License, Version 2.0")]
-[assembly: AssemblyTrademark("CenterCLR.Epoxy")]
-[assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCulture("")]
-
-[assembly: AssemblyVersion("0.4.20.0")]
-[assembly: AssemblyFileVersion("0.4.20.0")]
+namespace CenterCLR.Epoxy.UnitTesting
+{
+	public interface IPropertyAccessor
+	{
+		void SetProperty(PropertyInfo property, object target);
+	}
+}
