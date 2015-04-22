@@ -3,7 +3,7 @@
 	<metadata>
 		<id>CenterCLR.Epoxy</id>
 		<title>CenterCLR.Epoxy</title>
-		<version>0.4.20.0</version>
+		<version>0.4.22.0</version>
 		<authors>Kouji Matsui</authors>
 		<owners>Kouji Matsui</owners>
 		<copyright>Copyright (c) 2015 Kouji Matsui</copyright>
@@ -31,6 +31,10 @@
 			</group>
 			<group targetFramework="win8">
 			</group>
+			<group targetFramework="monodroid">
+				<dependency id="Xamarin.Android.Support.v4" />
+				<dependency id="Xamarin.Forms" />
+			</group>
 		</dependencies>
 		<!-- Optional metadata
 		<iconUrl></iconUrl>
@@ -54,5 +58,7 @@
 		<file src="..\Release\CenterCLR.Epoxy.WP8.pdb" target="lib\wp8" />
 		<file src="..\Release\CenterCLR.Epoxy.WinRT8.dll" target="lib\win8" />
 		<file src="..\Release\CenterCLR.Epoxy.WinRT8.pdb" target="lib\win8" />
+		<file src="..\Release\CenterCLR.Epoxy.Droid.dll" target="lib\monodroid" />
+		<file src="..\Release\CenterCLR.Epoxy.Droid.pdb" target="lib\monodroid" />
 	</files>
 </package>

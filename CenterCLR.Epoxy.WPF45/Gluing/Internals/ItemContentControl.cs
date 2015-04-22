@@ -37,10 +37,10 @@ namespace CenterCLR.Epoxy.Gluing.Internals
 {
 	internal sealed class ItemContentControl :
 #if WIN32 || SILVERLIGHT || NETFX_CORE
-        ContentControl
+		ContentControl
 #endif
 #if XAMARIN
-        ContentView
+ ContentView
 #endif
 	{
 		public ItemContentControl()
@@ -56,9 +56,9 @@ namespace CenterCLR.Epoxy.Gluing.Internals
 				Path = new PropertyPath(sourceProperty)
 #endif
 #if XAMARIN
-                Path = sourceProperty
+				Path = sourceProperty
 #endif
-            };
+			};
 
 			this.SetBinding(targetProperty, binding);
 		}
@@ -76,8 +76,8 @@ namespace CenterCLR.Epoxy.Gluing.Internals
 			this.SetValue(ContentProperty, value);
 #endif
 #if XAMARIN
-            this.SetBinding(ContentTemplateProperty, parent, "ItemTemplate");
-            this.SetValue(ContentProperty, value);
+			this.SetBinding(ContentTemplateProperty, parent, "ItemTemplate");
+			this.SetValue(ContentProperty, value);
 #endif
 		}
 
@@ -88,14 +88,14 @@ namespace CenterCLR.Epoxy.Gluing.Internals
 
 		public void ResetContentValue()
 		{
-			this.SetValue(ContentProperty, DependencyProperty.UnsetValue);
+			this.ClearValue(ContentProperty);
 
 #if WIN32
-			this.SetValue(ContentStringFormatProperty, DependencyProperty.UnsetValue);
+			this.ClearValue(ContentStringFormatProperty);
 #endif
-			this.SetValue(ContentTemplateProperty, DependencyProperty.UnsetValue);
+			this.ClearValue(ContentTemplateProperty);
 #if WIN32 || NETFX_CORE
-			this.SetValue(ContentTemplateSelectorProperty, DependencyProperty.UnsetValue);
+			this.ClearValue(ContentTemplateSelectorProperty);
 #endif
 		}
 	}
