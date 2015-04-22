@@ -18,7 +18,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>..\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;NET35</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;CODE_ANALYSIS;NET35;WIN32</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <RunCodeAnalysis>true</RunCodeAnalysis>
@@ -27,7 +27,7 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>..\Release\</OutputPath>
-    <DefineConstants>TRACE;NET35</DefineConstants>
+    <DefineConstants>TRACE;CODE_ANALYSIS;NET35;WIN32</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <RunCodeAnalysis>true</RunCodeAnalysis>
@@ -85,6 +85,9 @@
     </Compile>
     <Compile Include="..\CenterCLR.Epoxy.WPF45\Gluing\ItemsGlue.cs">
       <Link>Gluing\ItemsGlue.cs</Link>
+    </Compile>
+    <Compile Include="..\CenterCLR.Epoxy.WPF45\Gluing\MemberTargettableGlueBase.cs">
+      <Link>Gluing\MemberTargettableGlueBase.cs</Link>
     </Compile>
     <Compile Include="..\CenterCLR.Epoxy.WPF45\Gluing\MethodGlue.cs">
       <Link>Gluing\MethodGlue.cs</Link>

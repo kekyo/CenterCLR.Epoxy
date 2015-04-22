@@ -19,16 +19,29 @@
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Data;
-#else
+#endif
+#if WIN32 || SILVERLIGHT
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 #endif
+#if XAMARIN
+using Xamarin.Forms;
+using DependencyObject = Xamarin.Forms.BindableObject;
+using DependencyProperty = Xamarin.Forms.BindableProperty;
+using FrameworkElement = Xamarin.Forms.Element;
+#endif
 
 namespace CenterCLR.Epoxy.Gluing.Internals
 {
-	internal sealed class ItemContentControl : ContentControl
+	internal sealed class ItemContentControl :
+#if WIN32 || SILVERLIGHT || NETFX_CORE
+        ContentControl
+#endif
+#if XAMARIN
+        ContentView
+#endif
 	{
 		public ItemContentControl()
 		{
@@ -39,22 +52,33 @@ namespace CenterCLR.Epoxy.Gluing.Internals
 			var binding = new Binding
 			{
 				Source = source,
+#if WIN32 || SILVERLIGHT || NETFX_CORE
 				Path = new PropertyPath(sourceProperty)
-			};
+#endif
+#if XAMARIN
+                Path = sourceProperty
+#endif
+            };
 
 			this.SetBinding(targetProperty, binding);
 		}
 
 		public void SetContentValue(ItemsGlue parent, object value)
 		{
-#if NET35 || NET40 || NET45
+#if WIN32 || SILVERLIGHT || NETFX_CORE
+#if WIN32
 			this.SetBinding(ContentStringFormatProperty, parent, "ItemStringFormat");
 #endif
 			this.SetBinding(ContentTemplateProperty, parent, "ItemTemplate");
-#if NET35 || NET40 || NET45 || NETFX_CORE
+#if WIN32 || NETFX_CORE
 			this.SetBinding(ContentTemplateSelectorProperty, parent, "ItemTemplateSelector");
 #endif
 			this.SetValue(ContentProperty, value);
+#endif
+#if XAMARIN
+            this.SetBinding(ContentTemplateProperty, parent, "ItemTemplate");
+            this.SetValue(ContentProperty, value);
+#endif
 		}
 
 		public void SetContentValue(object value)
@@ -66,11 +90,11 @@ namespace CenterCLR.Epoxy.Gluing.Internals
 		{
 			this.SetValue(ContentProperty, DependencyProperty.UnsetValue);
 
-#if NET35 || NET40 || NET45
+#if WIN32
 			this.SetValue(ContentStringFormatProperty, DependencyProperty.UnsetValue);
 #endif
 			this.SetValue(ContentTemplateProperty, DependencyProperty.UnsetValue);
-#if NET35 || NET40 || NET45 || NETFX_CORE
+#if WIN32 || NETFX_CORE
 			this.SetValue(ContentTemplateSelectorProperty, DependencyProperty.UnsetValue);
 #endif
 		}

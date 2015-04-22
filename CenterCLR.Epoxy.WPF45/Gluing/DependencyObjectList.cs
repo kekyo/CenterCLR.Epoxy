@@ -23,7 +23,8 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using Windows.UI.Xaml;
-#else
+#endif
+#if WIN32 || SILVERLIGHT5 || WINDOWS_PHONE71 || WINDOWS_PHONE80
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -31,51 +32,117 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Windows;
+using System.Windows.Threading;
+#endif
+#if XAMARIN
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.Diagnostics.CodeAnalysis;
+using DependencyObject = Xamarin.Forms.BindableObject;
+using DependencyProperty = Xamarin.Forms.BindableProperty;
+using FrameworkElement = Xamarin.Forms.Element;
 #endif
 
 namespace CenterCLR.Epoxy.Gluing
 {
-#if NET35 || NET40 || NET45
-	public class FreezableList<T, U> : Freezable,
+#if WIN32
+	public abstract class DependencyObjectList<T, U> : Freezable,
 #else
-	public class DependencyObjectList<T> : DependencyObject,
+	public abstract class DependencyObjectList<T> : DependencyObject,
 #endif
 		IList<T>,
 		IList,
+#if !XAMARIN
 		INotifyPropertyChanged,
+#endif
 		INotifyCollectionChanged
-#if NET35 || NET40 || NET45
-		where U :
- Freezable, IList<T>, IList, INotifyPropertyChanged, INotifyCollectionChanged, new()
+#if WIN32
+		where T : Freezable
+		where U : Freezable, IList<T>, IList, INotifyPropertyChanged, INotifyCollectionChanged, new()
+#else
+		where T : DependencyObject
 #endif
 	{
 		private readonly List<T> list_ = new List<T>();
 
+#if !XAMARIN
 		public event PropertyChangedEventHandler PropertyChanged;
+#endif
 		public event NotifyCollectionChangedEventHandler CollectionChanged;
 
-#if NET35 || NET40 || NET45
-		protected FreezableList()
-#else
 		protected DependencyObjectList()
-#endif
 		{
 		}
 
-#if NET35 || NET40 || NET45
+#if WIN32
 		protected override sealed Freezable CreateInstanceCore()
 		{
 			return new U();
 		}
+
+		protected override bool FreezeCore(bool isChecking)
+		{
+			if (base.FreezeCore(isChecking) == false)
+			{
+				return false;
+			}
+
+			foreach (var value in list_)
+			{
+				var freezable = value as Freezable;
+				if (freezable != null)
+				{
+					if (Freezable.Freeze(freezable, isChecking) == false)
+					{
+						return false;
+					}
+				}
+				else
+				{
+					var d = value as DispatcherObject;
+					if ((d != null) && (d.Dispatcher != null))
+					{
+						return false;
+					}
+				}
+			}
+
+			return true;
+		}
 #endif
+
+		private void DemandReadAccess()
+		{
+#if WIN32
+			base.VerifyAccess();
+#endif
+		}
+
+		private void DemandWriteAccess()
+		{
+#if WIN32
+			base.VerifyAccess();
+			if (base.IsFrozen == true)
+			{
+				throw new InvalidOperationException(string.Format("{0}: Collection is already frozen.", this.GetType().FullName));
+			}
+#endif
+		}
 
 		private void InvokePropertyChanged(string propertyName)
 		{
+#if WIN32 || SILVERLIGHT || NETFX_CORE
 			var propertyChanged = this.PropertyChanged;
 			if (propertyChanged != null)
 			{
 				propertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
+#endif
+#if XAMARIN
+			base.OnPropertyChanged(propertyName);
+#endif
 		}
 
 		protected virtual void OnAdded(T newItem, int index)
@@ -123,6 +190,7 @@ namespace CenterCLR.Epoxy.Gluing
 		{
 			get
 			{
+				this.DemandReadAccess();
 				return list_.Count;
 			}
 		}
@@ -140,11 +208,20 @@ namespace CenterCLR.Epoxy.Gluing
 		{
 			get
 			{
+				this.DemandReadAccess();
+	
 				return list_[index];
 			}
 			set
 			{
+				this.DemandWriteAccess();
+
 				var oldItem = list_[index];
+
+#if WIN32
+				this.OnFreezablePropertyChanged(oldItem, value);
+#endif
+
 				list_[index] = value;
 
 				this.InvokePropertyChanged("Item[]");
@@ -154,30 +231,33 @@ namespace CenterCLR.Epoxy.Gluing
 
 		public int IndexOf(T item)
 		{
+			this.DemandReadAccess();
+
 			return list_.IndexOf(item);
 		}
 
 		public void Insert(int index, T item)
 		{
+			this.DemandWriteAccess();
+
 			list_.Insert(index, item);
+
+#if WIN32
+			this.OnFreezablePropertyChanged(null, item);
+#endif
 
 			this.InvokePropertyChanged("Item[]");
 			this.InvokePropertyChanged("Count");
 			this.OnAdded(item, index);
 		}
 
-		public void RemoveAt(int index)
-		{
-			var oldItem = list_[index];
-			list_.RemoveAt(index);
-
-			this.InvokePropertyChanged("Item[]");
-			this.InvokePropertyChanged("Count");
-			this.OnRemoved(oldItem, index);
-		}
-
 		private int InternalAdd(T item)
 		{
+			this.DemandWriteAccess();
+
+#if WIN32
+			this.OnFreezablePropertyChanged(null, item);
+#endif
 			var index = list_.Count;
 			list_.Add(item);
 
@@ -195,7 +275,16 @@ namespace CenterCLR.Epoxy.Gluing
 
 		public void Clear()
 		{
+			this.DemandWriteAccess();
+
 			this.OnClearing();
+
+#if WIN32
+			foreach (var item in list_)
+			{
+				this.OnFreezablePropertyChanged(null, item);
+			}
+#endif
 
 			list_.Clear();
 
@@ -206,22 +295,32 @@ namespace CenterCLR.Epoxy.Gluing
 
 		public bool Contains(T item)
 		{
+			this.DemandReadAccess();
+
 			return list_.Contains(item);
 		}
 
 		[SuppressMessage("Microsoft.Design", "CA1033")]
 		void ICollection<T>.CopyTo(T[] array, int arrayIndex)
 		{
+			this.DemandReadAccess();
+
 			list_.CopyTo(array, arrayIndex);
 		}
 
 		public bool Remove(T item)
 		{
+			this.DemandWriteAccess();
+
 			var index = list_.IndexOf(item);
 			if (index == -1)
 			{
 				return false;
 			}
+
+#if WIN32
+			this.OnFreezablePropertyChanged(item, null);
+#endif
 
 			list_.RemoveAt(index);
 
@@ -232,14 +331,35 @@ namespace CenterCLR.Epoxy.Gluing
 			return true;
 		}
 
+		public void RemoveAt(int index)
+		{
+			this.DemandWriteAccess();
+
+			var oldItem = list_[index];
+
+#if WIN32
+			this.OnFreezablePropertyChanged(oldItem, null);
+#endif
+
+			list_.RemoveAt(index);
+
+			this.InvokePropertyChanged("Item[]");
+			this.InvokePropertyChanged("Count");
+			this.OnRemoved(oldItem, index);
+		}
+
 		public IEnumerator<T> GetEnumerator()
 		{
+			this.DemandReadAccess();
+
 			return list_.GetEnumerator();
 		}
 
 		[SuppressMessage("Microsoft.Design", "CA1033")]
 		IEnumerator IEnumerable.GetEnumerator()
 		{
+			this.DemandReadAccess();
+
 			return list_.GetEnumerator();
 		}
 		#endregion
@@ -327,6 +447,8 @@ namespace CenterCLR.Epoxy.Gluing
 		[SuppressMessage("Microsoft.Design", "CA1033")]
 		void ICollection.CopyTo(Array array, int index)
 		{
+			this.DemandReadAccess();
+
 			((IList)list_).CopyTo(array, index);
 		}
 		#endregion

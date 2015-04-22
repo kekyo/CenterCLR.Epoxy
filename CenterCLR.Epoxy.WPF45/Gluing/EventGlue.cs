@@ -19,14 +19,24 @@
 using System.Diagnostics;
 using System.Windows.Input;
 using Windows.UI.Xaml;
-#else
+#endif
+#if WIN32 || SILVERLIGHT
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Input;
 #endif
+#if XAMARIN
+using System.Diagnostics;
+using System.Windows;
+using System.Windows.Input;
+using DependencyObject = Xamarin.Forms.BindableObject;
+using DependencyProperty = Xamarin.Forms.BindableProperty;
+using FrameworkElement = Xamarin.Forms.Element;
+#endif
 
 using CenterCLR.Epoxy.Gluing.Internals;
+using CenterCLR.Epoxy.Internals;
 
 namespace CenterCLR.Epoxy.Gluing
 {
@@ -34,23 +44,23 @@ namespace CenterCLR.Epoxy.Gluing
 	{
 		private EventHookFacade currentFacade_;
 
-		public static readonly DependencyProperty NameProperty = DependencyProperty.Register(
+		public static readonly DependencyProperty NameProperty = Utilities.Register<string>(
 			"Name",
-			typeof(string),
 			typeof(EventGlue),
-			new PropertyMetadata(null, OnChanged));
+			null,
+			OnChanged);
 
-		public static readonly DependencyProperty CommandProperty = DependencyProperty.Register(
+		public static readonly DependencyProperty CommandProperty = Utilities.Register<ICommand>(
 			"Command",
-			typeof(ICommand),
 			typeof(EventGlue),
-			new PropertyMetadata(null, OnChanged));
+			null,
+			OnChanged);
 
 		public EventGlue()
 		{
 		}
 
-#if NET35 || NET40 || NET45
+#if WIN32
 		[Bindable(true)]
 #endif
 		public string Name
@@ -65,8 +75,9 @@ namespace CenterCLR.Epoxy.Gluing
 			}
 		}
 
-#if NET35 || NET40 || NET45
+#if WIN32
 		[Bindable(true)]
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 #endif
 		public ICommand Command
 		{
@@ -96,34 +107,35 @@ namespace CenterCLR.Epoxy.Gluing
 			}
 		}
 
-		protected override void OnSetTarget(DependencyObject oldTarget, DependencyObject newTarget)
+		protected override void OnSetElementContext(FrameworkElement oldElementContext, FrameworkElement newElementContext)
 		{
 			if (currentFacade_ != null)
 			{
-				currentFacade_.RemoveHandler(this, oldTarget);
+				currentFacade_.RemoveHandler(this, oldElementContext);
 				currentFacade_ = null;
 			}
 
-			if ((newTarget == null) || string.IsNullOrEmpty(this.Name))
+			if ((newElementContext == null) || string.IsNullOrEmpty(this.Name))
 			{
 				return;
 			}
 
-			var type = newTarget.GetType();
+			var type = newElementContext.GetType();
 
 			currentFacade_ = EventHookFacade.TryGetFacade(type, this.Name);
 			if (currentFacade_ == null)
 			{
-				Debug.WriteLine(string.Format("EventGlue: warning: cannot found event: Type={0}, Name={1}", type.FullName, this.Name));
+				Debug.WriteLine(string.Format("Epoxy.EventGlue: warning: cannot found event: Type={0}, Name={1}", type.FullName, this.Name));
 				return;
 			}
 
-			currentFacade_.AddHandler(this, newTarget);
+			currentFacade_.AddHandler(this, newElementContext);
 		}
 
 		private void OnChanged(DependencyPropertyChangedEventArgs e)
 		{
-			this.OnSetTarget(base.Target, base.Target);
+			var elementContext = base.GetElementContext();
+			this.OnSetElementContext(elementContext, elementContext);
 		}
 
 		private static void OnChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)

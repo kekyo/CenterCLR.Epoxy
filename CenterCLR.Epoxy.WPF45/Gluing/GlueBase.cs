@@ -16,44 +16,60 @@
 ////////////////////////////////////////////////////////////////////////////
 
 #if NETFX_CORE
+using System.ComponentModel;
 using Windows.UI.Xaml;
-#else
+#endif
+#if WIN32 || SILVERLIGHT5 || WINDOWS_PHONE71 || WINDOWS_PHONE80
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Media.Animation;
+#endif
+#if MONODROID
+using DependencyObject = Xamarin.Forms.BindableObject;
+using DependencyProperty = Xamarin.Forms.BindableProperty;
+using FrameworkElement = Xamarin.Forms.Element;
 #endif
 
 namespace CenterCLR.Epoxy.Gluing
 {
 	public abstract class GlueBase :
-#if NET35 || NET40 || NET45
- Animatable
+#if WIN32
+		Animatable
 #else
 		DependencyObject
 #endif
 	{
+		private FrameworkElement elementContext_;
+
 		internal GlueBase()
 		{
 		}
 
-		protected DependencyObject Target
+#if WIN32
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+#endif
+		protected virtual FrameworkElement GetElementContext()
 		{
-			get;
-			private set;
+			return elementContext_;
 		}
 
-		internal void SetTarget(DependencyObject target)
+		internal void SetElementContext(FrameworkElement target)
 		{
-			var oldValue = this.Target;
-			if (object.ReferenceEquals(target, oldValue) == true)
+			if (object.ReferenceEquals(target, elementContext_) == true)
 			{
 				return;
 			}
 
-			this.Target = target;
-			this.OnSetTarget(oldValue, this.Target);
+			var oldElementContext = this.GetElementContext();
+
+			elementContext_ = target;
+
+			var newElementContext = this.GetElementContext();
+
+			this.OnSetElementContext(oldElementContext, newElementContext);
 		}
 
-		protected abstract void OnSetTarget(DependencyObject oldTarget, DependencyObject newTarget);
+		protected abstract void OnSetElementContext(FrameworkElement oldElementContext, FrameworkElement newElementContext);
 	}
 
 	public abstract class GlueBase<T> : GlueBase
@@ -63,7 +79,7 @@ namespace CenterCLR.Epoxy.Gluing
 		{
 		}
 
-#if NET35 || NET40 || NET45
+#if WIN32
 		protected override sealed Freezable CreateInstanceCore()
 		{
 			return new T();

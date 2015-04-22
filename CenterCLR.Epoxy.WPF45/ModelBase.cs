@@ -31,7 +31,7 @@ namespace CenterCLR.Epoxy
 {
 	[DataContract]
 	public abstract class ModelBase : INotifyPropertyChanged, INotifyDataErrorInfo, IDisposable
-#if NET35 || NET40 || NET45 || SILVERLIGHT5 || WINDOWS_PHONE75 || WINDOWS_PHONE80
+#if WIN32 || SILVERLIGHT5 || WINDOWS_PHONE71 || WINDOWS_PHONE80
 		, IDataErrorInfo
 #endif
 	{
@@ -98,7 +98,7 @@ namespace CenterCLR.Epoxy
 #endif
 		}
 
-#if NET35 || NET40 || NET45 || SILVERLIGHT5 || WINDOWS_PHONE75 || WINDOWS_PHONE80
+#if WIN32 || SILVERLIGHT5 || WINDOWS_PHONE71 || WINDOWS_PHONE80
 		[SuppressMessage("Microsoft.Design", "CA1033")]
 		string IDataErrorInfo.Error
 		{

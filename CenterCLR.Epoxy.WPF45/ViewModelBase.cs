@@ -92,6 +92,11 @@ namespace CenterCLR.Epoxy
 		{
 			return new FuncInvoker<T1, T2, T3, T4, TR>();
 		}
+
+		protected PropertyAccessor<T> CreateAccessor<T>()
+		{
+			return new PropertyAccessor<T>();
+		}
 	}
 
 	public abstract class ViewModelBase<T> : ViewModelBase

@@ -17,36 +17,43 @@
 
 #if NETFX_CORE
 using Windows.UI.Xaml;
-#else
+#endif
+#if WIN32 || SILVERLIGHT5 || WINDOWS_PHONE71 || WINDOWS_PHONE80
 using System.Windows;
+#endif
+#if XAMARIN
+using DependencyObject = Xamarin.Forms.BindableObject;
+using DependencyProperty = Xamarin.Forms.BindableProperty;
+using FrameworkElement = Xamarin.Forms.Element;
 #endif
 
 namespace CenterCLR.Epoxy.Gluing
 {
-#if NET35 || NET40 || NET45
-	public sealed class GlueCollection : FreezableList<GlueBase, GlueCollection>
+	public sealed class GlueCollection :
+#if WIN32
+		DependencyObjectList<GlueBase, GlueCollection>
 #else
-	public sealed class GlueCollection : DependencyObjectList<GlueBase>
+		DependencyObjectList<GlueBase>
 #endif
 	{
-		private DependencyObject target_;
+		private FrameworkElement elementContext_;
 
 		protected override void OnAdded(GlueBase newItem, int index)
 		{
-			newItem.SetTarget(target_);
+			newItem.SetElementContext(elementContext_);
 			base.OnAdded(newItem, index);
 		}
 
 		protected override void OnRemoved(GlueBase oldItem, int index)
 		{
-			oldItem.SetTarget(null);
+			oldItem.SetElementContext(null);
 			base.OnRemoved(oldItem, index);
 		}
 
 		protected override void OnReplaced(GlueBase newItem, GlueBase oldItem, int index)
 		{
-			oldItem.SetTarget(null);
-			newItem.SetTarget(target_);
+			oldItem.SetElementContext(null);
+			newItem.SetElementContext(elementContext_);
 			base.OnReplaced(newItem, oldItem, index);
 		}
 
@@ -56,22 +63,22 @@ namespace CenterCLR.Epoxy.Gluing
 
 			foreach (var item in this)
 			{
-				item.SetTarget(null);
+				item.SetElementContext(null);
 			}
 		}
 
-		internal void SetTarget(DependencyObject target)
+		internal void SetElementContext(FrameworkElement elementContext)
 		{
-			if (object.ReferenceEquals(target, target_) == true)
+			if (object.ReferenceEquals(elementContext, elementContext_) == true)
 			{
 				return;
 			}
 
-			target_ = target;
+			elementContext_ = elementContext;
 
 			foreach (var item in this)
 			{
-				item.SetTarget(target_);
+				item.SetElementContext(elementContext_);
 			}
 		}
 	}

@@ -17,32 +17,41 @@
 
 #if NETFX_CORE
 using Windows.UI.Xaml;
-#else
+#endif
+#if WIN32 || SILVERLIGHT
 using System.ComponentModel;
 using System.Windows;
 #endif
+#if MONODROID
+using System.Windows;
+using DependencyObject = Xamarin.Forms.BindableObject;
+using DependencyProperty = Xamarin.Forms.BindableProperty;
+using FrameworkElement = Xamarin.Forms.Element;
+#endif
+
+using CenterCLR.Epoxy.Internals;
 
 namespace CenterCLR.Epoxy.Gluing
 {
 	public sealed class MethodGlue : GlueBase<MethodGlue>
 	{
-		public static readonly DependencyProperty NameProperty = DependencyProperty.Register(
+		public static readonly DependencyProperty NameProperty = Utilities.Register<string>(
 			"Name",
-			typeof(string),
 			typeof(MethodGlue),
-			new PropertyMetadata(null, OnChanged));
+			null,
+			OnChanged);
 
-		public static readonly DependencyProperty InvokerProperty = DependencyProperty.Register(
+		public static readonly DependencyProperty InvokerProperty = Utilities.Register<MethodInvoker>(
 			"Invoker",
-			typeof(MethodInvoker),
 			typeof(MethodGlue),
-			new PropertyMetadata(null, OnChanged));
+			null,
+			OnChanged);
 
 		public MethodGlue()
 		{
 		}
 
-#if NET35 || NET40 || NET45
+#if WIN32
 		[Bindable(true)]
 #endif
 		public string Name
@@ -57,8 +66,9 @@ namespace CenterCLR.Epoxy.Gluing
 			}
 		}
 
-#if NET35 || NET40 || NET45
+#if WIN32
 		[Bindable(true)]
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 #endif
 		public MethodInvoker Invoker
 		{
@@ -72,18 +82,19 @@ namespace CenterCLR.Epoxy.Gluing
 			}
 		}
 
-		protected override void OnSetTarget(DependencyObject oldTarget, DependencyObject newTarget)
+		protected override void OnSetElementContext(FrameworkElement oldElementContext, FrameworkElement newElementContext)
 		{
 			var invoker = this.Invoker;
 			if (invoker != null)
 			{
-				invoker.SetTarget(newTarget, this.Name);
+				invoker.SetTarget(newElementContext, this.Name);
 			}
 		}
 
 		private void OnChanged(DependencyPropertyChangedEventArgs e)
 		{
-			this.OnSetTarget(base.Target, base.Target);
+			var elementContext = base.GetElementContext();
+			this.OnSetElementContext(elementContext, elementContext);
 		}
 
 		private static void OnChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)

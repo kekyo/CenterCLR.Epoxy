@@ -15,10 +15,9 @@
 // limitations under the License.
 ////////////////////////////////////////////////////////////////////////////
 
-#if !NET4 || SILVERLIGHT
 namespace System.ComponentModel.DataAnnotations
 {
-	public class ValidationResult
+	internal sealed class ValidationResult
 	{
 		public string ErrorMessage
 		{
@@ -27,4 +26,3 @@ namespace System.ComponentModel.DataAnnotations
 		}
 	}
 }
-#endif

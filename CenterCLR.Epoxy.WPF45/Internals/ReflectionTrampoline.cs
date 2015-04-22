@@ -84,6 +84,15 @@ namespace CenterCLR.Epoxy.Internals
 #endif
 		}
 
+		public static FieldInfo GetFieldTrampoline(this Type type, string fieldName)
+		{
+#if NETFX_CORE
+			return type.GetTypeInfo().GetDeclaredField(fieldName);
+#else
+			return type.GetField(fieldName, BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly);
+#endif
+		}
+
 		public static Type GetBaseTypeTrampoline(this Type type)
 		{
 #if NETFX_CORE

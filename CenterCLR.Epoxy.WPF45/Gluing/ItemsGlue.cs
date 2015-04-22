@@ -24,7 +24,8 @@ using System.Reflection;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Markup;
-#else
+#endif
+#if WIN32 || SILVERLIGHT
 using System;
 using System.Collections;
 using System.Collections.Specialized;
@@ -35,6 +36,16 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Markup;
 #endif
+#if XAMARIN
+using System.Collections;
+using System.Collections.Specialized;
+using System.Reflection;
+using System.Windows;
+using Xamarin.Forms;
+using DependencyObject = Xamarin.Forms.BindableObject;
+using DependencyProperty = Xamarin.Forms.BindableProperty;
+using FrameworkElement = Xamarin.Forms.Element;
+#endif
 
 using CenterCLR.Epoxy.Gluing.Internals;
 using CenterCLR.Epoxy.Internals;
@@ -43,10 +54,11 @@ namespace CenterCLR.Epoxy.Gluing
 {
 #if NETFX_CORE
 	[ContentProperty(Name = "ItemTemplate")]
-#else
+#endif
+#if WIN32 || SILVERLIGHT || XAMARIN
 	[ContentProperty("ItemTemplate")]
 #endif
-#if NET35 || NET40 || NET45
+#if WIN32
 	[DefaultProperty("ItemTemplate")]
 #endif
 	public sealed class ItemsGlue : GlueBase<ItemsGlue>
@@ -55,38 +67,37 @@ namespace CenterCLR.Epoxy.Gluing
 			(type, name, signatureTypes) => type.GetPropertyTrampoline(name),
 			property => ((typeof(IList).IsAssignableFromTrampoline(property.PropertyType) == true) && (property.GetIndexParameters().Length == 0)) ? property : null);
 
-		public static readonly DependencyProperty NameProperty = DependencyProperty.Register(
+		public static readonly DependencyProperty NameProperty = Utilities.Register<string>(
 			"Name",
-			typeof(string),
 			typeof(ItemsGlue),
-			new PropertyMetadata(null, OnChanged));
+			null,
+			OnChanged);
 
-		public static readonly DependencyProperty ItemsSourceProperty = DependencyProperty.Register(
+		public static readonly DependencyProperty ItemsSourceProperty = Utilities.Register<IEnumerable>(
 			"ItemsSource",
-			typeof(IEnumerable),
 			typeof(ItemsGlue),
-			new PropertyMetadata(null, OnItemsSourceChanged));
-
-#if NET35 || NET40 || NET45
-		public static readonly DependencyProperty ItemStringFormatProperty = DependencyProperty.Register(
+			null,
+			OnItemsSourceChanged);
+#if WIN32
+		public static readonly DependencyProperty ItemStringFormatProperty = Utilities.Register<string>(
 			"ItemStringFormat",
-			typeof(string),
 			typeof(ItemsGlue),
-			new PropertyMetadata(null, OnChanged));
+			null,
+            OnChanged);
 #endif
 
-		public static readonly DependencyProperty ItemTemplateProperty = DependencyProperty.Register(
+		public static readonly DependencyProperty ItemTemplateProperty = Utilities.Register<DataTemplate>(
 			"ItemTemplate",
-			typeof(DataTemplate),
 			typeof(ItemsGlue),
-			new PropertyMetadata(null, OnChanged));
+			null,
+			OnChanged);
 
-#if NET35 || NET40 || NET45 || NETFX_CORE
-		public static readonly DependencyProperty ItemTemplateSelectorProperty = DependencyProperty.Register(
+#if WIN32 || NETFX_CORE
+		public static readonly DependencyProperty ItemTemplateSelectorProperty = Utilities.Register<DataTemplateSelector>(
 			"ItemTemplateSelector",
-			typeof(DataTemplateSelector),
 			typeof(ItemsGlue),
-			new PropertyMetadata(null, OnChanged));
+			null,
+			OnChanged);
 #endif
 		private IList targetList_;
 
@@ -94,7 +105,7 @@ namespace CenterCLR.Epoxy.Gluing
 		{
 		}
 
-#if NET35 || NET40 || NET45
+#if WIN32
 		[Bindable(true)]
 #endif
 		public string Name
@@ -109,7 +120,7 @@ namespace CenterCLR.Epoxy.Gluing
 			}
 		}
 
-#if NET35 || NET40 || NET45
+#if WIN32
 		[Bindable(true)]
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 #endif
@@ -125,7 +136,7 @@ namespace CenterCLR.Epoxy.Gluing
 			}
 		}
 
-#if NET35 || NET40 || NET45
+#if WIN32
 		[Bindable(true)]
 		public string ItemStringFormat
 		{
@@ -140,7 +151,7 @@ namespace CenterCLR.Epoxy.Gluing
 		}
 #endif
 
-#if NET35 || NET40 || NET45
+#if WIN32
 		[Bindable(true)]
 #endif
 		public DataTemplate ItemTemplate
@@ -155,8 +166,8 @@ namespace CenterCLR.Epoxy.Gluing
 			}
 		}
 
-#if NET35 || NET40 || NET45 || NETFX_CORE
-#if NET35 || NET40 || NET45
+#if WIN32 || NETFX_CORE
+#if WIN32
 		[Bindable(true)]
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 #endif
@@ -180,7 +191,7 @@ namespace CenterCLR.Epoxy.Gluing
 			return item;
 		}
 
-		protected override void OnSetTarget(DependencyObject oldTarget, DependencyObject newTarget)
+		protected override void OnSetElementContext(FrameworkElement oldTarget, FrameworkElement newTarget)
 		{
 			if (targetList_ != null)
 			{
@@ -264,7 +275,7 @@ namespace CenterCLR.Epoxy.Gluing
 					}
 					break;
 
-#if NET35 || NET40 || NET45 || WINDOWS_PHONE80 || NETFX_CORE
+#if WIN32 || WINDOWS_PHONE80 || NETFX_CORE || XAMARIN
 				case NotifyCollectionChangedAction.Move:
 					{
 						var item = (ItemContentControl)targetList_[e.OldStartingIndex];
@@ -278,7 +289,8 @@ namespace CenterCLR.Epoxy.Gluing
 
 		private void OnChanged(DependencyPropertyChangedEventArgs e)
 		{
-			this.OnSetTarget(base.Target, base.Target);
+			var elementContext = base.GetElementContext();
+			this.OnSetElementContext(elementContext, elementContext);
 		}
 
 		private static void OnChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -295,7 +307,8 @@ namespace CenterCLR.Epoxy.Gluing
 				oldValue.CollectionChanged -= this.OnCollectionChanged;
 			}
 
-			this.OnSetTarget(base.Target, base.Target);
+			var elementContext = base.GetElementContext();
+			this.OnSetElementContext(elementContext, elementContext);
 
 			var newValue = e.NewValue as INotifyCollectionChanged;
 			if (newValue != null)

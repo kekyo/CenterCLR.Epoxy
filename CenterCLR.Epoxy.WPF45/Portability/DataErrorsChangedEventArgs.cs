@@ -15,21 +15,19 @@
 // limitations under the License.
 ////////////////////////////////////////////////////////////////////////////
 
-#if !NET45
 namespace System.ComponentModel
 {
-	public class DataErrorsChangedEventArgs : EventArgs
+	internal sealed class DataErrorsChangedEventArgs : EventArgs
 	{
 		public DataErrorsChangedEventArgs(string propertyName)
 		{
 			this.PropertyName = propertyName;
 		}
 
-		public virtual string PropertyName
+		public string PropertyName
 		{
 			get;
 			private set;
 		}
 	}
 }
-#endif

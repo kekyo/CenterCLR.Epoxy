@@ -32,7 +32,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>..\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;CODE_ANALYSIS;SILVERLIGHT5</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;CODE_ANALYSIS;SILVERLIGHT;SILVERLIGHT5</DefineConstants>
     <NoStdLib>true</NoStdLib>
     <NoConfig>true</NoConfig>
     <ErrorReport>prompt</ErrorReport>
@@ -43,7 +43,7 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>..\Release\</OutputPath>
-    <DefineConstants>TRACE;CODE_ANALYSIS;SILVERLIGHT5</DefineConstants>
+    <DefineConstants>TRACE;CODE_ANALYSIS;SILVERLIGHT;SILVERLIGHT5</DefineConstants>
     <NoStdLib>true</NoStdLib>
     <NoConfig>true</NoConfig>
     <ErrorReport>prompt</ErrorReport>
@@ -95,6 +95,9 @@
     </Compile>
     <Compile Include="..\CenterCLR.Epoxy.WPF45\Gluing\ItemsGlue.cs">
       <Link>Gluing\ItemsGlue.cs</Link>
+    </Compile>
+    <Compile Include="..\CenterCLR.Epoxy.WPF45\Gluing\MemberTargettableGlueBase.cs">
+      <Link>Gluing\MemberTargettableGlueBase.cs</Link>
     </Compile>
     <Compile Include="..\CenterCLR.Epoxy.WPF45\Gluing\MethodGlue.cs">
       <Link>Gluing\MethodGlue.cs</Link>

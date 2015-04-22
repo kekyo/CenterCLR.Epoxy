@@ -15,7 +15,6 @@
 // limitations under the License.
 ////////////////////////////////////////////////////////////////////////////
 
-#if !NET45
 namespace System.Runtime.CompilerServices
 {
 	[AttributeUsage(AttributeTargets.Parameter)]
@@ -23,4 +22,3 @@ namespace System.Runtime.CompilerServices
 	{
 	}
 }
-#endif

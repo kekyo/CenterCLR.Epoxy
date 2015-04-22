@@ -21,7 +21,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>..\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;NET45</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;CODE_ANALYSIS;NET45;WIN32</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <RunCodeAnalysis>true</RunCodeAnalysis>
@@ -31,7 +31,7 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>..\Release\</OutputPath>
-    <DefineConstants>TRACE;NET45</DefineConstants>
+    <DefineConstants>TRACE;CODE_ANALYSIS;NET45;WIN32</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <RunCodeAnalysis>true</RunCodeAnalysis>
@@ -67,6 +67,7 @@
     <Compile Include="Gluing\Internals\EventHookFacade.cs" />
     <Compile Include="Gluing\MethodGlue.cs" />
     <Compile Include="Gluing\PropertyGlue.cs" />
+    <Compile Include="Gluing\MemberTargettableGlueBase.cs" />
     <Compile Include="Internals\MemberExtractor.cs" />
     <Compile Include="Internals\ModelValues.cs" />
     <Compile Include="Internals\Utilities.cs" />

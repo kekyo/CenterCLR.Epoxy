@@ -123,7 +123,7 @@ namespace CenterCLR.Epoxy
 			else
 			{
 				wr_.Target = null;
-				Debug.WriteLine(string.Format("MethodInvoker: warning: cannot found method: Type={0}, Name={1}", type.FullName, name));
+				Debug.WriteLine(string.Format("Epoxy.MethodInvoker: warning: cannot found method: Type={0}, Name={1}", type.FullName, name));
 			}
 		}
 
@@ -150,7 +150,7 @@ namespace CenterCLR.Epoxy
 				if (target == null)
 				{
 					method_ = null;
-					throw new InvalidOperationException("Binding source not assigned/released.");
+					throw new InvalidOperationException("Epoxy.MethodInvoker: error: Binding source not assigned/released.");
 				}
 
 				return (T)(object)method_.CreateDelegateTrampoline(typeof(T), target);

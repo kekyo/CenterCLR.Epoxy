@@ -15,10 +15,31 @@
 // limitations under the License.
 ////////////////////////////////////////////////////////////////////////////
 
+#if NETFX_CORE
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 using System.Linq;
+using Windows.UI.Xaml;
+#endif
+#if NET35 || NET40 || NET45 || SILVERLIGHT5 || WINDOWS_PHONE71 || WINDOWS_PHONE80
+using System;
+using System.ComponentModel.DataAnnotations;
+using System.Diagnostics;
+using System.Linq;
+using System.Windows;
+#endif
+#if MONODROID
+using System;
+using System.ComponentModel.DataAnnotations;
+using System.Diagnostics;
+using System.Linq;
+using System.Windows;
+using Xamarin.Forms;
+using DependencyObject = Xamarin.Forms.BindableObject;
+using DependencyProperty = Xamarin.Forms.BindableProperty;
+using FrameworkElement = Xamarin.Forms.Element;
+#endif
 
 namespace CenterCLR.Epoxy.Internals
 {
@@ -44,6 +65,71 @@ namespace CenterCLR.Epoxy.Internals
 			{
 				MemberName = propertyName
 			};
+#endif
+		}
+
+		public static DependencyObject GetParent(this DependencyObject d)
+		{
+#if WIN32
+			return LogicalTreeHelper.GetParent(d);
+#else
+			var fe = d as FrameworkElement;
+			if (fe == null)
+			{
+				return null;
+			}
+
+			return fe.Parent;
+#endif
+		}
+
+		public static DependencyProperty Register<T>(
+			string propertyName,
+			Type ownerType,
+			T defaultValue,
+			Action<DependencyObject, DependencyPropertyChangedEventArgs> changedHandler)
+		{
+#if WIN32 || SILVERLIGHT || NETFX_CORE
+			return DependencyProperty.Register(
+				propertyName,
+				typeof(T),
+				ownerType,
+				new PropertyMetadata(defaultValue, (s, e) => changedHandler(s, e)));
+#endif
+#if XAMARIN
+			return DependencyProperty.Create(
+				propertyName,
+				typeof(T),
+				ownerType,
+				defaultValue,
+				BindingMode.OneWay,
+				null,
+				(b, oldValue, newValue) => changedHandler(b, new DependencyPropertyChangedEventArgs(oldValue, newValue)));
+#endif
+		}
+
+		public static DependencyProperty RegisterAttached<T>(
+			string propertyName,
+			Type ownerType,
+			T defaultValue,
+			Action<DependencyObject, DependencyPropertyChangedEventArgs> changedHandler)
+		{
+#if WIN32 || SILVERLIGHT || NETFX_CORE
+			return DependencyProperty.RegisterAttached(
+				propertyName,
+				typeof(T),
+				ownerType,
+				new PropertyMetadata(defaultValue, (s, e) => changedHandler(s, e)));
+#endif
+#if XAMARIN
+			return DependencyProperty.CreateAttached(
+				propertyName,
+				typeof(T),
+				ownerType,
+				defaultValue,
+				BindingMode.OneWay,
+				null,
+				(b, oldValue, newValue) => changedHandler(b, new DependencyPropertyChangedEventArgs(oldValue, newValue)));
 #endif
 		}
 

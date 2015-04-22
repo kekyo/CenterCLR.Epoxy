@@ -17,22 +17,31 @@
 
 #if NETFX_CORE
 using Windows.UI.Xaml;
-#else
+#endif
+#if WIN32 || SILVERLIGHT
 using System.Windows;
 #endif
+#if XAMARIN
+using System.Windows;
+using DependencyObject = Xamarin.Forms.BindableObject;
+using DependencyProperty = Xamarin.Forms.BindableProperty;
+using FrameworkElement = Xamarin.Forms.Element;
+#endif
+
+using CenterCLR.Epoxy.Internals;
 
 namespace CenterCLR.Epoxy.Gluing
 {
 	public static class Epoxy
 	{
 		public static readonly DependencyProperty GluesProperty =
-			DependencyProperty.RegisterAttached(
+			Utilities.RegisterAttached<GlueCollection>(
 				"ShadowGlues",
-				typeof(GlueCollection),
 				typeof(Epoxy),
-				new PropertyMetadata(null, OnChanged));
+				null,
+				OnGluesChanged);
 
-		public static GlueCollection GetGlues(DependencyObject d)
+		public static GlueCollection GetGlues(FrameworkElement d)
 		{
 			var value = (GlueCollection)d.GetValue(GluesProperty);
 			if (value == null)
@@ -44,18 +53,18 @@ namespace CenterCLR.Epoxy.Gluing
 			return value;
 		}
 
-		private static void OnChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+		private static void OnGluesChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
 		{
-			var oldValue = e.OldValue as GlueCollection;
+			var oldValue = (GlueCollection)e.OldValue;
 			if (oldValue != null)
 			{
-				oldValue.SetTarget(null);
+				oldValue.SetElementContext(null);
 			}
 
-			var newValue = e.NewValue as GlueCollection;
+			var newValue = (GlueCollection)e.NewValue;
 			if (newValue != null)
 			{
-				newValue.SetTarget(d);
+				newValue.SetElementContext((FrameworkElement)d);
 			}
 		}
 	}

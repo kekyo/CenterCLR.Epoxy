@@ -30,7 +30,9 @@ namespace CenterCLR.Epoxy
 	{
 		internal static readonly MemberExtractor<PropertyInfo, PropertyInfo> properties_ = MemberExtractor.Create(
 			(type, name, signatureTypes) => type.GetPropertiesTrampoline().
-				FirstOrDefault(property => (property.Name == name) && (property.GetIndexParameters().Select(parameter => parameter.ParameterType).SequenceEqual(signatureTypes))),
+				FirstOrDefault(property =>
+					(property.Name == name) &&
+					(property.GetIndexParameters().Select(parameter => parameter.ParameterType).SequenceEqual(signatureTypes))),
 			property => property);
 
 		internal PropertyAccessor()
@@ -47,11 +49,6 @@ namespace CenterCLR.Epoxy
 
 	public sealed class PropertyAccessor<T> : PropertyAccessor, IPropertyAccessor
 	{
-		static PropertyAccessor()
-		{
-			Debug.Assert(typeof(Delegate).IsAssignableFromTrampoline(typeof(T)));
-		}
-
 		private readonly WeakReference wr_ = new WeakReference(null);
 		private PropertyInfo property_;
 
@@ -77,7 +74,7 @@ namespace CenterCLR.Epoxy
 			else
 			{
 				wr_.Target = null;
-				Debug.WriteLine(string.Format("PropertyAccessor: warning: cannot found method: Type={0}, Name={1}", type.FullName, name));
+				Debug.WriteLine(string.Format("Epoxy.PropertyAccessor: warning: cannot found property: Type={0}, Name={1}", type.FullName, name));
 			}
 		}
 
@@ -103,7 +100,7 @@ namespace CenterCLR.Epoxy
 				if (target == null)
 				{
 					property_ = null;
-					throw new InvalidOperationException("Binding source not assigned/released.");
+					throw new InvalidOperationException("Epoxy.PropertyAccessor: error: Binding source not assigned/released.");
 				}
 
 				return (T)property_.GetValue(target, null);
@@ -114,11 +111,16 @@ namespace CenterCLR.Epoxy
 				if (target == null)
 				{
 					property_ = null;
-					throw new InvalidOperationException("Binding source not assigned/released.");
+					throw new InvalidOperationException("Epoxy.PropertyAccessor: error: Binding source not assigned/released.");
 				}
 
 				property_.SetValue(target, value, null);
 			}
+		}
+
+		public static PropertyAccessor<T> Create()
+		{
+			return new PropertyAccessor<T>();
 		}
 	}
 }

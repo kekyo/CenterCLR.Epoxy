@@ -15,12 +15,11 @@
 // limitations under the License.
 ////////////////////////////////////////////////////////////////////////////
 
-#if !NET45
 using System.Collections;
 
 namespace System.ComponentModel
 {
-	public interface INotifyDataErrorInfo
+	internal interface INotifyDataErrorInfo
 	{
 		bool HasErrors
 		{
@@ -32,4 +31,3 @@ namespace System.ComponentModel
 		IEnumerable GetErrors(string propertyName);
 	}
 }
-#endif

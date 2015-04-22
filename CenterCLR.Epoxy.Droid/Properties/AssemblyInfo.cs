@@ -15,32 +15,10 @@
 // limitations under the License.
 ////////////////////////////////////////////////////////////////////////////
 
-using System.Collections.Generic;
+using System.Reflection;
+using System.Runtime.InteropServices;
 
-namespace System.ComponentModel.DataAnnotations
-{
-	internal sealed class ValidationContext : IServiceProvider
-	{
-		public ValidationContext(object instance, IServiceProvider serviceProvider, IDictionary<object, object> items)
-		{
-			this.ObjectInstance = instance;
-		}
+[assembly: AssemblyTitle("CenterCLR.Epoxy.Droid")]
 
-		public object ObjectInstance
-		{
-			get;
-			private set;
-		}
-
-		public string MemberName
-		{
-			get;
-			set;
-		}
-
-		public object GetService(Type serviceType)
-		{
-			return null;
-		}
-	}
-}
+[assembly: ComVisible(false)]
+[assembly: Guid("85565ED9-2E3A-42B5-83D2-9870E2FE623A")]

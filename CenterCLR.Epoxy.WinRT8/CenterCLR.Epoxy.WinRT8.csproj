@@ -72,6 +72,9 @@
     <Compile Include="..\CenterCLR.Epoxy.WPF45\Gluing\ItemsGlue.cs">
       <Link>Gluing\ItemsGlue.cs</Link>
     </Compile>
+    <Compile Include="..\CenterCLR.Epoxy.WPF45\Gluing\MemberTargettableGlueBase.cs">
+      <Link>Gluing\MemberTargettableGlueBase.cs</Link>
+    </Compile>
     <Compile Include="..\CenterCLR.Epoxy.WPF45\Gluing\MethodGlue.cs">
       <Link>Gluing\MethodGlue.cs</Link>
     </Compile>

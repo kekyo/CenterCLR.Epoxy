@@ -15,12 +15,11 @@
 // limitations under the License.
 ////////////////////////////////////////////////////////////////////////////
 
-#if !NET4 || SILVERLIGHT
 using System.Collections.Generic;
 
 namespace System.ComponentModel.DataAnnotations
 {
-	public static class Validator
+	internal static class Validator
 	{
 		public static bool TryValidateObject(object instance, ValidationContext validationContext, ICollection<ValidationResult> validationResults)
 		{
@@ -33,4 +32,3 @@ namespace System.ComponentModel.DataAnnotations
 		}
 	}
 }
-#endif

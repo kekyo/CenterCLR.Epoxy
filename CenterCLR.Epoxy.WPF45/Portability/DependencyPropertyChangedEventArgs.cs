@@ -15,32 +15,26 @@
 // limitations under the License.
 ////////////////////////////////////////////////////////////////////////////
 
-using System.Collections.Generic;
-
-namespace System.ComponentModel.DataAnnotations
+namespace System.Windows
 {
-	internal sealed class ValidationContext : IServiceProvider
+	internal sealed class DependencyPropertyChangedEventArgs : EventArgs
 	{
-		public ValidationContext(object instance, IServiceProvider serviceProvider, IDictionary<object, object> items)
+		public DependencyPropertyChangedEventArgs(object oldValue, object newValue)
 		{
-			this.ObjectInstance = instance;
+			this.OldValue = oldValue;
+			this.NewValue = newValue;
 		}
 
-		public object ObjectInstance
+		public object OldValue
 		{
 			get;
 			private set;
 		}
 
-		public string MemberName
+		public object NewValue
 		{
 			get;
-			set;
-		}
-
-		public object GetService(Type serviceType)
-		{
-			return null;
+			private set;
 		}
 	}
 }

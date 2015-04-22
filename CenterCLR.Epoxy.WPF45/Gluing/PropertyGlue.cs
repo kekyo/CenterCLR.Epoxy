@@ -16,80 +16,111 @@
 ////////////////////////////////////////////////////////////////////////////
 
 #if NETFX_CORE
+using System.ComponentModel;
 using Windows.UI.Xaml;
-#else
+#endif
+#if WIN32 || SILVERLIGHT
 using System.ComponentModel;
 using System.Windows;
 #endif
+#if XAMARIN
+using System.ComponentModel;
+using System.Windows;
+using DependencyObject = Xamarin.Forms.BindableObject;
+using DependencyProperty = Xamarin.Forms.BindableProperty;
+using FrameworkElement = Xamarin.Forms.Element;
+#endif
+
+using CenterCLR.Epoxy.Internals;
 
 namespace CenterCLR.Epoxy.Gluing
 {
-	public sealed class PropertyGlue : GlueBase<PropertyGlue>
+	public sealed class PropertyGlue : MemberTargettableGlueBase<PropertyGlue>
 	{
-		public static readonly DependencyProperty NameProperty = DependencyProperty.Register(
-			"Name",
-			typeof(string),
+		public static readonly DependencyProperty PropertyNameProperty = Utilities.Register<string>(
+			"PropertyName",
 			typeof(PropertyGlue),
-			new PropertyMetadata(null, OnChanged));
+			null,
+			OnPropertyNameChanged);
 
-		public static readonly DependencyProperty InvokerProperty = DependencyProperty.Register(
-			"Invoker",
-			typeof(MethodInvoker),
+		public static readonly DependencyProperty AccessorProperty = Utilities.Register<PropertyAccessor>(
+			"Accessor",
 			typeof(PropertyGlue),
-			new PropertyMetadata(null, OnChanged));
+			null,
+			OnAccessorChanged);
 
 		public PropertyGlue()
 		{
 		}
 
-#if NET35 || NET40 || NET45
+#if WIN32
 		[Bindable(true)]
 #endif
-		public string Name
+		public string PropertyName
 		{
 			get
 			{
-				return (string)base.GetValue(NameProperty);
+				return (string)base.GetValue(PropertyNameProperty);
 			}
 			set
 			{
-				base.SetValue(NameProperty, value);
+				base.SetValue(PropertyNameProperty, value);
 			}
 		}
 
-#if NET35 || NET40 || NET45
+#if WIN32
 		[Bindable(true)]
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 #endif
-		public MethodInvoker Invoker
+		public PropertyAccessor Accessor
 		{
 			get
 			{
-				return (MethodInvoker)base.GetValue(InvokerProperty);
+				return (PropertyAccessor)base.GetValue(AccessorProperty);
 			}
 			set
 			{
-				base.SetValue(InvokerProperty, value);
+				base.SetValue(AccessorProperty, value);
 			}
 		}
 
-		protected override void OnSetTarget(DependencyObject oldTarget, DependencyObject newTarget)
+		protected override void OnSetElementContext(FrameworkElement oldElementContext, FrameworkElement newElementContext)
 		{
-			var invoker = this.Invoker;
-			if (invoker != null)
+			var accessor = this.Accessor;
+			if (accessor != null)
 			{
-				invoker.SetTarget(newTarget, this.Name);
+				accessor.SetTarget(newElementContext, this.PropertyName);
 			}
 		}
 
-		private void OnChanged(DependencyPropertyChangedEventArgs e)
+		protected override void OnTargetNameChanged(string oldName, string newName)
 		{
-			this.OnSetTarget(base.Target, base.Target);
+			var elementContext = base.GetElementContext();
+			this.OnSetElementContext(elementContext, elementContext);
 		}
 
-		private static void OnChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+		private void OnPropertyNameChanged(DependencyPropertyChangedEventArgs e)
 		{
-			var methodGlue = (PropertyGlue)d;
-			methodGlue.OnChanged(e);
+			var elementContext = base.GetElementContext();
+			this.OnSetElementContext(elementContext, elementContext);
+		}
+
+		private void OnAccessorChanged(DependencyPropertyChangedEventArgs e)
+		{
+			var elementContext = base.GetElementContext();
+			this.OnSetElementContext(elementContext, elementContext);
+		}
+
+		private static void OnPropertyNameChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+		{
+			var propertyGlue = (PropertyGlue)d;
+			propertyGlue.OnPropertyNameChanged(e);
+		}
+
+		private static void OnAccessorChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+		{
+			var propertyGlue = (PropertyGlue)d;
+			propertyGlue.OnAccessorChanged(e);
 		}
 	}
 }
