@@ -29,8 +29,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CenterCLR.Epoxy", "CenterCL
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{FE012192-63A0-460D-B5C9-9EE74AC5111B}"
 	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
 		CenterCLR.Epoxy.snk = CenterCLR.Epoxy.snk
 		CommonAssemblyInfo.cs = CommonAssemblyInfo.cs
+		README.md = README.md
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CenterCLR.Epoxy.Droid", "CenterCLR.Epoxy.Droid\CenterCLR.Epoxy.Droid.csproj", "{4382583B-37ED-48C7-BA1A-C103C36E3A45}"
