@@ -18,7 +18,7 @@
 #if NETFX_CORE
 using Windows.UI.Xaml;
 #endif
-#if WIN32 || SILVERLIGHT5 || WINDOWS_PHONE71 || WINDOWS_PHONE80
+#if WIN32 || SILVERLIGHT
 using System.Windows;
 #endif
 #if XAMARIN

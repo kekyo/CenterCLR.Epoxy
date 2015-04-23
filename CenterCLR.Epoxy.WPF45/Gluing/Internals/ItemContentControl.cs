@@ -27,6 +27,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 #endif
 #if XAMARIN
+using System.Windows;
 using Xamarin.Forms;
 using DependencyObject = Xamarin.Forms.BindableObject;
 using DependencyProperty = Xamarin.Forms.BindableProperty;
@@ -36,12 +37,7 @@ using FrameworkElement = Xamarin.Forms.Element;
 namespace CenterCLR.Epoxy.Gluing.Internals
 {
 	internal sealed class ItemContentControl :
-#if WIN32 || SILVERLIGHT || NETFX_CORE
 		ContentControl
-#endif
-#if XAMARIN
- ContentView
-#endif
 	{
 		public ItemContentControl()
 		{
@@ -65,20 +61,14 @@ namespace CenterCLR.Epoxy.Gluing.Internals
 
 		public void SetContentValue(ItemsGlue parent, object value)
 		{
-#if WIN32 || SILVERLIGHT || NETFX_CORE
 #if WIN32
 			this.SetBinding(ContentStringFormatProperty, parent, "ItemStringFormat");
 #endif
-			this.SetBinding(ContentTemplateProperty, parent, "ItemTemplate");
 #if WIN32 || NETFX_CORE
 			this.SetBinding(ContentTemplateSelectorProperty, parent, "ItemTemplateSelector");
 #endif
-			this.SetValue(ContentProperty, value);
-#endif
-#if XAMARIN
 			this.SetBinding(ContentTemplateProperty, parent, "ItemTemplate");
 			this.SetValue(ContentProperty, value);
-#endif
 		}
 
 		public void SetContentValue(object value)
@@ -89,13 +79,12 @@ namespace CenterCLR.Epoxy.Gluing.Internals
 		public void ResetContentValue()
 		{
 			this.ClearValue(ContentProperty);
-
-#if WIN32
-			this.ClearValue(ContentStringFormatProperty);
-#endif
 			this.ClearValue(ContentTemplateProperty);
 #if WIN32 || NETFX_CORE
 			this.ClearValue(ContentTemplateSelectorProperty);
+#endif
+#if WIN32
+			this.ClearValue(ContentStringFormatProperty);
 #endif
 		}
 	}

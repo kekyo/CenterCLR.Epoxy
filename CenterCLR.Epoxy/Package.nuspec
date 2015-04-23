@@ -3,7 +3,7 @@
 	<metadata>
 		<id>CenterCLR.Epoxy</id>
 		<title>CenterCLR.Epoxy</title>
-		<version>0.4.22.0</version>
+		<version>0.4.23.0</version>
 		<authors>Kouji Matsui</authors>
 		<owners>Kouji Matsui</owners>
 		<copyright>Copyright (c) 2015 Kouji Matsui</copyright>
@@ -15,7 +15,7 @@
 		<language>en-US</language>
 		<dependencies>
 			<group targetFramework="net35-Client">
-				<dependency id="TaskParallelLibrary" />
+				<dependency id="TaskParallelLibrary" version="1.0.2856.0" />
 			</group>
 			<group targetFramework="net40-Client">
 			</group>
@@ -24,16 +24,16 @@
 			<group targetFramework="sl5">
 			</group>
 			<group targetFramework="wp71">
-				<dependency id="Microsoft.Bcl" />
-				<dependency id="Microsoft.Bcl.Build" />
+				<dependency id="Microsoft.Bcl" version="1.1.10" />
+				<dependency id="Microsoft.Bcl.Build" version="1.0.14" />
 			</group>
 			<group targetFramework="wp8">
 			</group>
 			<group targetFramework="win8">
 			</group>
-			<group targetFramework="monodroid">
-				<dependency id="Xamarin.Android.Support.v4" />
-				<dependency id="Xamarin.Forms" />
+			<group targetFramework="MonoAndroid">
+				<dependency id="Xamarin.Android.Support.v4" version="21.0.3.0" />
+				<dependency id="Xamarin.Forms" version="1.4.2.6355" />
 			</group>
 		</dependencies>
 		<!-- Optional metadata
@@ -58,7 +58,7 @@
 		<file src="..\Release\CenterCLR.Epoxy.WP8.pdb" target="lib\wp8" />
 		<file src="..\Release\CenterCLR.Epoxy.WinRT8.dll" target="lib\win8" />
 		<file src="..\Release\CenterCLR.Epoxy.WinRT8.pdb" target="lib\win8" />
-		<file src="..\Release\CenterCLR.Epoxy.Droid.dll" target="lib\monodroid" />
-		<file src="..\Release\CenterCLR.Epoxy.Droid.pdb" target="lib\monodroid" />
+		<file src="..\Release\CenterCLR.Epoxy.Droid.dll" target="lib\MonoAndroid" />
+		<file src="..\Release\CenterCLR.Epoxy.Droid.pdb" target="lib\MonoAndroid" />
 	</files>
 </package>
